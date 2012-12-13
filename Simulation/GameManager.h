@@ -4,7 +4,7 @@
 #include "Cursor.h"
 #include "Player.h"
 #include "Enemy.h"
-#include "StageScene.h"
+#include "Map.h"
 
 using namespace std;
 
@@ -16,7 +16,7 @@ public:
 	void draw();
 
 private:
-	StageScene stageScene;
+	Map map;
 	Cursor cursor;
 
 	vector<Player> players;

@@ -3,10 +3,6 @@
 
 int Keyboard::key[256];
 
-Keyboard::Keyboard(){
-	initialize();
-}
-
 void Keyboard::initialize(){
 	for(int i = 0; i < 256; i++) key[i] = 0;
 }

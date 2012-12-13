@@ -10,6 +10,24 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="BaseScene.h" />
+    <ClInclude Include="BattleScene.h" />
+    <ClInclude Include="Cursor.h" />
+    <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="Map.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BaseScene.cpp" />
+    <ClCompile Include="BattleScene.cpp" />
+    <ClCompile Include="Cursor.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Player.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4442D9E3-89A8-43A8-84EF-C000EE17CB2E}</ProjectGuid>
     <RootNamespace>Simulation</RootNamespace>
@@ -65,24 +83,6 @@
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Cursor.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="Keyboard.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="StageScene.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="BaseObject.h" />
-    <ClInclude Include="Cursor.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="GameManager.h" />
-    <ClInclude Include="Keyboard.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="StageScene.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
