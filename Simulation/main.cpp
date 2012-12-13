@@ -1,25 +1,35 @@
 #include <DxLib.h>
+#include "Keyboard.h"
+#include "GameManager.h"
+
+//----------------------------------------
+//ループで必ず行う処理
+//----------------------------------------
+int ProcessLoop(){
+	if(ProcessMessage() != 0)  return -1;	//プロセス処理がエラーなら-1を返す
+	if(ClearDrawScreen() != 0) return -1;	//画面クリア処理がエラーなら-1を返す
+	if(Keyboard::update() != 0) return -1;	//キーのアップデート処理がエラーなら-1を返す
+	return 0;
+}
 
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow){
-	int Cr;
-
 	// ウインドウモードに変更
 	ChangeWindowMode(true);
+	if(DxLib_Init() == -1 || SetDrawScreen(DX_SCREEN_BACK) != 0) return -1;	//初期化と裏画面処理
 
-	if(DxLib_Init() == -1)	// ＤＸライブラリ初期化処理
-	{
-		return -1;	// エラーが起きたら直ちに終了
+
+	Keyboard::initialize();
+	GameManager manager;
+	manager.create();
+	
+	while(!ProcessLoop() && !Keyboard::get(KEY_INPUT_ESCAPE)){
+		manager.update();
+		manager.draw();
+		
+		ScreenFlip();	//裏画面を表画面に反映
 	}
 
-	// 白色の値を取得
-	Cr = GetColor(255, 255, 255);
-
-	// 文字列の描画
-	DrawString(250, 240 - 16, "Hello C World!", Cr);
-
-	WaitKey();		// キーの入力待ち(『WaitKey』を使用)
-
-	DxLib_End();		// ＤＸライブラリ使用の終了処理
-
-	return 0;		// ソフトの終了
+	WaitKey();
+	DxLib_End();
+	return 0;
 }
