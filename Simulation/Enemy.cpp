@@ -1,7 +1,7 @@
 #include <DxLib.h>
 #include "Object.h"
 
-Enemy::Enemy(int x, int y, int id){
+Enemy::Enemy(int x, int y, int id):pos(x, y){
 	this->x = x, this->y = y, this->id = id;
 	image = GetColor(255, 0, 0);
 	mapsize = 32;

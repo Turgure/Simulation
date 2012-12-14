@@ -17,6 +17,7 @@
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Position.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseScene.cpp" />
@@ -27,6 +28,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Position.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4442D9E3-89A8-43A8-84EF-C000EE17CB2E}</ProjectGuid>

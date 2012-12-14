@@ -1,4 +1,5 @@
 #pragma once
+#include "Position.h"
 
 //オブジェクトの基底クラス
 class BaseObject{
@@ -6,8 +7,6 @@ protected:
 public:
 	BaseObject(){};
 	virtual ~BaseObject(){};
-	int getX() const { return x; }
-	int getY() const { return y; }
 
 protected:
 	virtual void update(){};
@@ -19,7 +18,6 @@ protected:
 	int id;
 	char* name;
 	int mapsize;
-
 };
 
 //プレイヤークラス
@@ -28,11 +26,15 @@ public:
 	Player(int x, int y, int id);
 	virtual void update() override;
 	virtual void draw() override;
+	Position pos;
 
+	bool canAct();
 	void showCommand();
+	void act();
 
 private:
-	enum Command{MOVE, ATTACK, END} command;
+	enum Command{SELECT, MOVE, ATTACK, END} command;
+	bool can_act;
 };
 
 
@@ -42,4 +44,5 @@ public:
 	Enemy(int x, int y, int id);
 	virtual void update() override;
 	virtual void draw() override;
+	Position pos;
 };

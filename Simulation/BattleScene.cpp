@@ -9,13 +9,13 @@ void BattleScene::initialize(){
 	turn = 1;
 	//Map::create();
 
-	for(int i = 0; i < 5; i++){
-		players.push_back( Player(100 + i*32, 100 + i*32, i) );
+	for(int i = 0; i < 1; i++){
+		players.push_back( Player(196 + i*32, 196 + i*32, players.size()) );
 	}
 	
 	for(int i = 0; i < 5; i++){
 		int j = GetRand(8);
-		enemies.push_back( Enemy(100 + i*32, 100 + 32*j, i) );
+		enemies.push_back( Enemy(100 + i*32, 100 + 32*j, enemies.size()) );
 	}
 }
 
@@ -24,10 +24,16 @@ void BattleScene::update(){
 		turn++;
 	}
 
-	//if(enemies.size() == 0)
-		//changeScene(new homeScene)
+	for(auto player : players){
+		if(player.pos.targetted(cursor.getX(), cursor.getY())){
+			player.act();
+		}
+	}
 
 	cursor.update();
+	
+	//if(enemies.size() == 0)
+		//changeScene(new homeScene)
 }
 
 void BattleScene::draw(){
@@ -37,9 +43,6 @@ void BattleScene::draw(){
 
 	for(auto player : players){
 		player.draw();
-		if(player.getX() == cursor.getX() && player.getY() == cursor.getY()){
-			player.showCommand();
-		}
 	}
 	for(auto enemy : enemies){
 		enemy.draw();
