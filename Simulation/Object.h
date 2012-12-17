@@ -1,5 +1,6 @@
 #pragma once
 #include "Position.h"
+#include "Event.h"
 
 //オブジェクトの基底クラス
 class BaseObject{
@@ -33,6 +34,7 @@ public:
 	void act();
 
 private:
+	Player* player;
 	enum Command{SELECT, MOVE, ATTACK, END} command;
 	bool can_act;
 };
