@@ -7,5 +7,5 @@ public:
 
 private:
 	int current_map;
-	int maptips[10][10];
+	static int maptips[10][10];
 };
