@@ -2,6 +2,10 @@
 #include "Keyboard.h"
 #include "BattleScene.h"
 
+//test
+//test git共有テスト
+
+
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow){
 	// ウインドウモードに変更
 	ChangeWindowMode(true);
