@@ -13,6 +13,7 @@ int Map::maptips[10][10] = {
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
+bool Map::id[10][10] = {false};
 
 Map::Map(){
 	current_map = 1;
