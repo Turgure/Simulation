@@ -28,15 +28,15 @@ public:
 	virtual void update() override;
 	virtual void draw() override;
 	Position pos;
-
-	bool canAct();
+	
 	void showCommand();
 	void act();
 
+	enum Command{SELECT, MOVE, ATTACK, END};
+
 private:
-	Player* player;
-	enum Command{SELECT, MOVE, ATTACK, END} command;
 	bool can_act;
+	Command command;
 };
 
 

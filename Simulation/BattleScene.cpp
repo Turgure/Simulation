@@ -24,7 +24,7 @@ void BattleScene::update(){
 		turn++;
 	}
 
-	for(auto player : players){
+	for(auto& player : players){
 		if(player.pos.targetted(cursor.getX(), cursor.getY())){
 			player.act();
 		}
@@ -32,7 +32,7 @@ void BattleScene::update(){
 
 	cursor.update();
 	
-	//if(enemies.size() == 0)
+	//if(enemies.empty())
 		//changeScene(new homeScene)
 }
 
@@ -41,10 +41,10 @@ void BattleScene::draw(){
 
 	map.draw();
 
-	for(auto player : players){
+	for(auto& player : players){
 		player.draw();
 	}
-	for(auto enemy : enemies){
+	for(auto& enemy : enemies){
 		enemy.draw();
 	}
 
