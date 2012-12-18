@@ -46,10 +46,11 @@ void Player::act(){
 		case SELECT:
 			break;
 		case MOVE:
-			Event::nearFour(pos.getX(), pos.getY());
+			Event::range(pos.getX(), pos.getY(), 5);
 			break;
 		case ATTACK:
-			Event::lineFour(pos.getX(), pos.getY());
+			Event::spotReachTo(pos.getX(), pos.getY(), 2);
+			Event::spotReachTo(pos.getX(), pos.getY(), 3);
 			break;
 		case END:
 			can_act = false;
