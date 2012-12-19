@@ -14,5 +14,6 @@ public:
 	bool targetted(int x, int y);
 
 private:
-	int x, y, mapsize;
+	int x, y;
+	int mapsize;
 };

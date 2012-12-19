@@ -26,7 +26,7 @@ void BattleScene::update(){
 
 	for(auto& player : players){
 		player.update();
-		if(player.pos.targetted(cursor.getX(), cursor.getY())){
+		if(player.pos().targetted(cursor.getX(), cursor.getY())){
 			player.act();
 		}
 	}

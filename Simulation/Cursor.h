@@ -5,12 +5,12 @@ public:
 	Cursor(int x, int y);
 	void update();
 	void draw();
-	int getX() const { return x; }
-	int getY() const { return y; }
+	static int getX(){ return x; }
+	static int getY(){ return y; }
 
 private:
-	int x;
-	int y;
+	static int x;
+	static int y;
 	int image;
 
 	int maptip;

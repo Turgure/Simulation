@@ -13,8 +13,6 @@ protected:
 	virtual void update(){};
 	virtual void draw(){};
 
-	int x;
-	int y;
 	int image;
 	int id;
 	char* name;
@@ -27,16 +25,17 @@ public:
 	Player(int x, int y, int id);
 	virtual void update() override;
 	virtual void draw() override;
-	Position pos;
 	
 	void showCommand();
 	void act();
 
-	enum Command{SELECT, MOVE, ATTACK, END};
+	Position pos(){ return varpos; }
 
 private:
 	bool can_act;
-	Command command;
+	enum Command{SELECT, MOVE, ATTACK, END} command;
+
+	Position varpos;
 };
 
 
@@ -46,5 +45,9 @@ public:
 	Enemy(int x, int y, int id);
 	virtual void update() override;
 	virtual void draw() override;
-	Position pos;
+
+	Position pos(){ return varpos; }
+
+private:
+	Position varpos;
 };

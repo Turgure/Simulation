@@ -2,6 +2,9 @@
 #include "Cursor.h"
 #include "Keyboard.h"
 
+int Cursor::x;
+int Cursor::y;
+
 Cursor::Cursor(int x, int y){
 	this->x = x, this->y =  y;
 	image = GetColor(0, 155, 0);
