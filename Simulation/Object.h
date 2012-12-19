@@ -4,7 +4,6 @@
 
 //オブジェクトの基底クラス
 class BaseObject{
-protected:
 public:
 	BaseObject(){};
 	virtual ~BaseObject(){};
@@ -27,13 +26,13 @@ public:
 	virtual void draw() override;
 	
 	void showCommand();
-	void act();
+	void react();
 
 	Position pos(){ return varpos; }
 
 private:
 	bool can_act;
-	enum Command{SELECT, MOVE, ATTACK, END} command;
+	enum State{SELECT, MOVE, ATTACK, END} state;
 
 	Position varpos;
 };

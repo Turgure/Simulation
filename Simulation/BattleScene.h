@@ -21,4 +21,6 @@ private:
 	Cursor cursor;
 	vector<Player> players;
 	vector<Enemy> enemies;
+
+	enum Phase{PLAYER, ENEMY, NEUTRAL} phase;
 };
