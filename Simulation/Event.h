@@ -12,10 +12,12 @@ public:
 	
 	//範囲
 	static void range(int x, int y, int n);	//(x, y)中心でnマス範囲
+	static void rangeInField(int x, int y, int n);	//(x, y)中心でnマス範囲(はみ出さない)
 	//列
 	//static void lineOne(int x, int y);	//前方1列
 	//static void lineTwo(int x, int y);	//全後方1列
 	static void lineFour(int x, int y);	//前後左右4列
+	static void lineFourInField(int x, int y, int n);	//前後左右四列表示(はみ出さない)
 	//static void CrossFour(int x, int y);	//斜め4列
 
 private:
