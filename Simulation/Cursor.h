@@ -12,6 +12,4 @@ private:
 	static int x;
 	static int y;
 	int image;
-
-	int maptip;
 };

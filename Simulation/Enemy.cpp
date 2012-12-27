@@ -1,10 +1,10 @@
 #include <DxLib.h>
 #include "Object.h"
+#include "MapChipDefinition.h"
 
 Enemy::Enemy(int x, int y, int id):varpos(x, y){
 	this->id = id;
 	image = GetColor(255, 0, 0);
-	mapsize = 32;
 }
 
 void Enemy::update(){

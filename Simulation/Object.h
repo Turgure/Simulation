@@ -15,7 +15,6 @@ protected:
 	int image;
 	int id;
 	char* name;
-	int mapsize;
 };
 
 //プレイヤークラス

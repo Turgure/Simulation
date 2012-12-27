@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "BaseScene.h"
-#include "Map.h"
+#include "Stage.h"
 #include "Cursor.h"
 #include "Object.h"
 
@@ -17,7 +17,7 @@ public:
 private:
 	int turn;
 
-	Map map;
+	Stage stage;
 	Cursor cursor;
 	vector<Player> players;
 	vector<Enemy> enemies;

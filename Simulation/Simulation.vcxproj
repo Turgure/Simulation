@@ -12,12 +12,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Event.h" />
+    <ClInclude Include="MapChipDefinition.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="BattleScene.h" />
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="Keyboard.h" />
-    <ClInclude Include="Map.h" />
+    <ClInclude Include="Stage.h" />
     <ClInclude Include="Position.h" />
   </ItemGroup>
   <ItemGroup>
@@ -28,7 +29,7 @@
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Position.cpp" />
   </ItemGroup>
