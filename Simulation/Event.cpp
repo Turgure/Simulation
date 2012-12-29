@@ -1,7 +1,7 @@
 #include <DxLib.h>
 #include "Event.h"
 #include "Stage.h"
-#include "MapChipDefinition.h"
+#include "MapchipDefinition.h"
 
 int Event::color = GetColor(102,255,255);
 
@@ -16,16 +16,16 @@ void Event::point(int x, int y){
 
 void Event::spotReachTo(int x, int y, int n){
 	for(int m = 0; m < n; m++){
-		if( Stage::getID(x-n+m, y-m) != -1 ){
+		if(Stage::canMove(x-n+m, y-m)){
 			Stage::setBrightPoints(x-n+m, y-m, color);
 		}
-		if( Stage::getID(x+m, y-n+m) != -1 ){
+		if(Stage::canMove(x+m, y-n+m)){
 			Stage::setBrightPoints(x+m, y-n+m, color);
 		}
-		if( Stage::getID(x+n-m, y+m) != -1 ){
+		if(Stage::canMove(x+n-m, y+m)){
 			Stage::setBrightPoints(x+n-m, y+m, color);
 		}
-		if( Stage::getID(x-m, y+n-m) != -1 ){
+		if(Stage::canMove(x-m, y+n-m)){
 			Stage::setBrightPoints(x-m, y+n-m, color);
 		}
 	}
@@ -38,28 +38,28 @@ void Event::spotReachTo(int x, int y, int min_range, int max_range){
 }
 
 void Event::spotAround(int x, int y){
-	point(x - mapsize, y - mapsize);
-	point(x + mapsize, y - mapsize);
-	point(x - mapsize, y + mapsize);
-	point(x + mapsize, y + mapsize);
+	point(x - 1, y - 1);
+	point(x + 1, y - 1);
+	point(x - 1, y + 1);
+	point(x + 1, y + 1);
 }
 
 void Event::range(int x, int y, int n){
 	if(n <= 0) return;
 	
-	if( Stage::getID(x-1, y) != -1 ){
+	if(Stage::canMove(x-1, y)){
 		Stage::setBrightPoints(x-1, y, color);
 		range(x-1, y, n-1);
 	}
-	if( Stage::getID(x+1, y) != -1 ){
+	if(Stage::canMove(x+1, y)){
 		Stage::setBrightPoints(x+1, y, color);
 		range(x+1, y, n-1);
 	}
-	if( Stage::getID(x, y-1) != -1 ){
+	if(Stage::canMove(x, y-1)){
 		Stage::setBrightPoints(x, y-1, color);
 		range(x, y-1, n-1);
 	}
-	if( Stage::getID(x, y+1) != -1 ){
+	if(Stage::canMove(x, y+1)){
 		Stage::setBrightPoints(x, y+1, color);
 		range(x, y+1, n-1);
 	}

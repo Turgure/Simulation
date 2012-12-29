@@ -1,92 +1,114 @@
 #include <DxLib.h>
 #include "Stage.h"
-#include "MapChipDefinition.h"
+#include "MapchipDefinition.h"
 
 int Stage::map[height][width] = {
-	{ 1,  1,  1,  1,  1,  1,  1,  1,  1,  1},
-	{ 1,  1,  1,  1,  1,  1,  1,  1,  1,  1},
-	{ 1,  1,  1,  1,  1,  1,  1,  1,  1,  1},
-	{ 1, -1, -1, -1,  1,  1, -1, -1, -1,  1},
-	{ 1,  1,  1,  1, -1, -1,  1,  1,  1,  1},
-	{ 1,  1,  1,  1, -1, -1,  1,  1,  1,  1},
-	{ 1, -1, -1, -1,  1,  1, -1, -1, -1,  1},
-	{ 1,  1,  1,  1,  1,  1,  1,  1,  1,  1},
-	{ 1,  1,  1,  1,  1,  1,  1,  1,  1,  1},
-	{ 1,  1,  1,  1,  1,  1,  1,  1,  1,  1}
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+	{1, 0, 0, 0, 1, 1, 0, 0, 0, 1},
+	{1, 1, 1, 1, 0, 0, 1, 1, 1, 1},
+	{1, 1, 1, 1, 0, 0, 1, 1, 1, 1},
+	{1, 0, 0, 0, 1, 1, 0, 0, 0, 1},
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
 
-Stage::Cell Stage::cell[];
+Stage::Mapchip Stage::mapchip[height][width];
 
 Stage::Stage(){
-	current_map = 1;
-	for(int h = 0; h < height; h++){
-		for(int w = 0; w < width; w++){
-			cell[(h*10)+w].id = map[h][w];
-			cell[(h*10)+w].can_move_object = false;
-		}
-	}
-	checkID();
+	initialize();
 }
 
-void Stage::checkID(){
+void Stage::initialize(){
+	current_map = 1;
+	initID();
+	initMap();
+}
+
+void Stage::initID(){
+	for(int i = 0; i < 5; i++)
+		mapchipStatus.push_back( MapchipStatus(i) );
+
+	for(auto& chip : mapchipStatus){
+		switch(chip.id){
+		case 0://移動不可
+			chip.movable = false;
+			chip.mapchip_color = GetColor(255, 128, 0);
+			break;
+
+		case 1://移動可能（1:草原, 2:岩…　などにする）
+			chip.movable = true;
+			chip.mapchip_color = GetColor(128, 255, 0);
+			break;
+
+		default:
+			break;
+		}
+	}
+}
+
+void Stage::initMap(){
 	for(int h = 0; h < height; h++){
 		for(int w = 0; w < width; w++){
-			switch(cell[(h*10)+w].id){
-			case 1://移動可能
-				cell[(h*10)+w].mapchip_color = GetColor(0, 255, 255);
-				break;
-			default://移動不可
-				cell[(h*10)+w].mapchip_color = GetColor(126, 126, 0);
-				break;
+			mapchip[h][w].can_move_object = false;
+		
+			for(auto& chip : mapchipStatus){
+				if(map[h][w] == chip.id){
+					mapchip[h][w].mapchip_color = chip.mapchip_color;
+					continue;
+				}
 			}
 		}
 	}
 }
 
 void Stage::draw(){
-	drawStage();
-	drawObject();
+	drawMap();
+	drawBrightPoints();
 }
 
-void Stage::drawStage(){
+void Stage::drawMap(){
 	for(int h = 0; h < height; h++){
 		for(int w = 0; w < width; w++){
-			DrawBox(100 + w*mapsize, 100 + h*mapsize, 100 + (w+1)*mapsize, 100 + (h+1)*mapsize, cell[(h*10)+w].mapchip_color, false);
+			DrawBox(100 + w*mapsize, 100 + h*mapsize, 100 + (w+1)*mapsize, 100 + (h+1)*mapsize, mapchip[h][w].mapchip_color, false);
 		}
 	}
 }
 
-void Stage::drawObject(){
+void Stage::drawBrightPoints(){
 	for(int h = 0; h < height; h++){
 		for(int w = 0; w < width; w++){
-			if(cell[(h*10)+w].can_move_object){
-				DrawBox(100 + w*mapsize, 100 + h*mapsize, 100 + (w+1)*mapsize, 100 + (h+1)*mapsize, cell[(h*10)+w].color, true);
+			if(mapchip[h][w].can_move_object){
+				DrawBox(100 + w*mapsize, 100 + h*mapsize, 100 + (w+1)*mapsize, 100 + (h+1)*mapsize, mapchip[h][w].bright_color, true);
 			}
 		}
 	}
 }
 
 void Stage::setBrightPoints(int x, int y, int color){
-	cell[(y*10)+x].can_move_object = true;
-	cell[(y*10)+x].color = color;
+	mapchip[y][x].can_move_object = true;
+	mapchip[y][x].bright_color = color;
 }
 
 bool Stage::getBrightPoints(int x, int y){
-	return cell[(y*10)+x].can_move_object;
+	return mapchip[y][x].can_move_object;
 }
 
 void Stage::eraseBrightPoints(){
 	for(int h = 0; h < height; h++){
 		for(int w = 0; w < width; w++){
-			cell[(h*10)+w].can_move_object = false;
+			mapchip[h][w].can_move_object = false;
 		}
 	}
 }
 
-int Stage::getID(int x, int y){
+bool Stage::canMove(int x, int y){
 	if(x >= 0 && y >= 0 && x < width && y < height){
-		return cell[(y*10)+x].id;
+		if(map[y][x] != 0) return true;
+		else return false;
 	} else {
-		return -1;
+		return false;
 	}
 }

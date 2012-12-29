@@ -12,7 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Event.h" />
-    <ClInclude Include="MapChipDefinition.h" />
+    <ClInclude Include="MapchipDefinition.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="BattleScene.h" />

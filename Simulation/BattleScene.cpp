@@ -9,13 +9,12 @@ BattleScene::BattleScene():cursor(5, 8){
 
 void BattleScene::initialize(){
 	turn = 1;
-	//Stage::create();
-
+	stage.initialize();
 	players.push_back( Player(4, 3, players.size()) );
-
 	for(int i = 0; i < 5; i++){
-		int j = GetRand(8);
-		enemies.push_back( Enemy(100 + i*32, 100 + 32*j, enemies.size()) );
+		int j = GetRand(9);
+		int k = GetRand(9);
+		enemies.push_back( Enemy(j, k, enemies.size()) );
 	}
 }
 
@@ -24,6 +23,7 @@ void BattleScene::update(){
 	case PLAYER:
 		for(auto& player : players){
 			player.update();
+			player.attack(enemies);
 		}
 		cursor.update();
 		break;
@@ -32,15 +32,25 @@ void BattleScene::update(){
 		break;
 	case NEUTRAL:
 		phase = PLAYER;
-		for(auto& player :players) player.react();
+		for(auto& player : players) player.react();
 		++turn;
 		break;
 	}
 
+	auto enemy = enemies.begin();
+	while(enemy != enemies.end()){
+		if(enemy->getHP() <= 0){
+			enemy = enemies.erase(enemy);
+		} else {
+			enemy++;
+		}
+	}
+
+
 	if(Keyboard::get(KEY_INPUT_9) == 1) phase = NEUTRAL;
 
 	//if(enemies.empty())
-	//changeScene(new homeScene)
+		//changeScene(new homeScene)
 }
 
 void BattleScene::draw(){
@@ -50,10 +60,10 @@ void BattleScene::draw(){
 
 	stage.draw();
 
-	for(auto& player : players){
+	for(auto player : players){
 		player.draw();
 	}
-	for(auto& enemy : enemies){
+	for(auto enemy : enemies){
 		enemy.draw();
 	}
 

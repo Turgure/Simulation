@@ -1,6 +1,9 @@
 #pragma once
+#include <vector>
 #include "Position.h"
 #include "Event.h"
+
+using namespace std;
 
 //オブジェクトの基底クラス
 class BaseObject{
@@ -15,8 +18,10 @@ protected:
 	int image;
 	int id;
 	char* name;
+	int hp;
 };
 
+class Enemy;
 //プレイヤークラス
 class Player : public BaseObject{
 public:
@@ -24,6 +29,8 @@ public:
 	virtual void update() override;
 	virtual void draw() override;
 	
+	void attack(vector<Enemy>& enemies);
+
 	void showCommand();
 	void react();
 
@@ -31,9 +38,14 @@ public:
 
 private:
 	bool can_act;
+	bool can_move;
+	bool can_attack;
 	enum State{SELECT, MOVE, ATTACK, END} state;
 
 	Position varpos;
+
+public:
+	State getState() const {return state; }
 };
 
 
@@ -43,6 +55,9 @@ public:
 	Enemy(int x, int y, int id);
 	virtual void update() override;
 	virtual void draw() override;
+
+	void setHP(int hp);
+	int getHP() const;
 
 	Position pos(){ return varpos; }
 

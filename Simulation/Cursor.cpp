@@ -2,7 +2,7 @@
 #include "Cursor.h"
 #include "Keyboard.h"
 #include "Event.h"
-#include "MapChipDefinition.h"
+#include "MapchipDefinition.h"
 
 int Cursor::x;
 int Cursor::y;

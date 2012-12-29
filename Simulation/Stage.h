@@ -1,34 +1,42 @@
 #pragma once
+#include <vector>
 
 class Stage{
 public:
 	Stage();
-	void checkID();
+	void initialize();
+	void initID();
+	void initMap();
 	
 	void draw();
-	void drawStage();
-	void drawObject();
+	void drawMap();
+	void drawBrightPoints();
 
 	static void setBrightPoints(int x, int y, int color);
 	static bool getBrightPoints(int x, int y);
 	static void eraseBrightPoints();
-	static int getID(int x, int y);
+	static bool canMove(int x, int y);
 
 private:
 	static const int width = 10;
 	static const int height = 10;
 
-	int current_map;
 	static int map[height][width];
+	int current_map;
 
-
-	struct Cell{
+	struct MapchipStatus{
+		MapchipStatus(int id){ this-> id = id; }
 		int id;
-		int color;
-		bool can_move_object;
-
-		//あとで別のファイルに書く。
+		bool movable;
 		int mapchip_color;
 	};
-	static Cell cell[height*width];
+
+	struct Mapchip{
+		int mapchip_color;
+		int bright_color;
+		bool can_move_object;
+	};
+
+	std::vector<MapchipStatus> mapchipStatus;
+	static Mapchip mapchip[height][width];
 };
