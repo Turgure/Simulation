@@ -56,8 +56,8 @@ void SceneManager::run(BaseScene* starter){
 	//メインループ開始
 	do{
 		next_scene = current_scene->main();
-	}while(next_scene = current_scene);
+		delete current_scene;
+	}while(current_scene = next_scene);
 
-	delete current_scene;
 	running = false;
 }

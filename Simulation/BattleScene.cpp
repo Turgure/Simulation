@@ -1,5 +1,6 @@
 #include <DxLib.h>
 #include "BattleScene.h"
+#include "HomeScene.h"
 #include "Keyboard.h"
 #include "Cursor.h"
 
@@ -10,11 +11,17 @@ BattleScene::BattleScene():cursor(5, 8){
 void BattleScene::initialize(){
 	turn = 1;
 	stage.initialize();
+	
 	players.push_back( Player(4, 3, players.size()) );
+
 	for(int i = 0; i < 5; i++){
-		int j = GetRand(9);
-		int k = GetRand(9);
-		enemies.push_back( Enemy(j, k, enemies.size()) );
+		int x, y;
+		do{
+			x = GetRand(9);
+			y = GetRand(9);
+		}while(!stage.canMove(x, y));
+
+		enemies.push_back( Enemy(x, y, enemies.size()) );
 	}
 }
 
@@ -48,9 +55,10 @@ void BattleScene::update(){
 
 
 	if(Keyboard::get(KEY_INPUT_9) == 1) phase = NEUTRAL;
-
-	//if(enemies.empty())
-		//changeScene(new homeScene)
+	
+	if(enemies.empty()){
+		changeScene(new HomeScene);
+	}
 }
 
 void BattleScene::draw(){
@@ -60,10 +68,10 @@ void BattleScene::draw(){
 
 	stage.draw();
 
-	for(auto player : players){
+	for(auto& player : players){
 		player.draw();
 	}
-	for(auto enemy : enemies){
+	for(auto& enemy : enemies){
 		enemy.draw();
 	}
 

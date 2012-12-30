@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Event.h" />
+    <ClInclude Include="HomeScene.h" />
     <ClInclude Include="MapchipDefinition.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="BaseScene.h" />
@@ -27,6 +28,7 @@
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Event.cpp" />
+    <ClCompile Include="HomeScene.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Stage.cpp" />
