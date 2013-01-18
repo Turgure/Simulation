@@ -1,19 +1,19 @@
-#include <DxLib.h>
+ï»¿#include <DxLib.h>
 #include "BaseScene.h"
 #include "Keyboard.h"
 
 bool BaseScene::running;
 
 BaseScene* BaseScene::main(){
-	if(running) return nullptr;	//1“x‚ÉŽÀs‚Å‚«‚éƒV[ƒ“‚Í1‚Â
+	if(running) return nullptr;	//1åº¦ã«å®Ÿè¡Œã§ãã‚‹ã‚·ãƒ¼ãƒ³ã¯1ã¤
 	running = true;
 	next_scene = nullptr;
 
-	//ƒ‹[ƒv‘Oˆ—
+	//ãƒ«ãƒ¼ãƒ—å‰å‡¦ç†
 	initialize();
 	looping = true;
 	
-	//ƒƒCƒ“ƒ‹[ƒv
+	//ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—
 	while(looping){
 		if(processLoop()){
 			running = false;
@@ -21,10 +21,10 @@ BaseScene* BaseScene::main(){
 		}
 		update();
 		draw();
-		ScreenFlip();	//— ‰æ–Ê‚ð•\‰æ–Ê‚É”½‰f
+		ScreenFlip();	//è£ç”»é¢ã‚’è¡¨ç”»é¢ã«åæ˜ 
 	}
 
-	//ƒ‹[ƒvŒãˆ—
+	//ãƒ«ãƒ¼ãƒ—å¾Œå‡¦ç†
 	finalize();
 	running = false;
 
@@ -37,9 +37,9 @@ void BaseScene::changeScene(BaseScene* next_scene){
 }
 
 int BaseScene::processLoop(){
-	if(ProcessMessage() != 0)  return -1;	//ƒvƒƒZƒXˆ—‚ªƒGƒ‰[‚È‚ç-1‚ð•Ô‚·
-	if(ClearDrawScreen() != 0) return -1;	//‰æ–ÊƒNƒŠƒAˆ—‚ªƒGƒ‰[‚È‚ç-1‚ð•Ô‚·
-	if(Keyboard::update() != 0) return -1;	//ƒL[‚ÌƒAƒbƒvƒf[ƒgˆ—‚ªƒGƒ‰[‚È‚ç-1‚ð•Ô‚·
+	if(ProcessMessage() != 0)  return -1;	//ãƒ—ãƒ­ã‚»ã‚¹å‡¦ç†ãŒã‚¨ãƒ©ãƒ¼ãªã‚‰-1ã‚’è¿”ã™
+	if(ClearDrawScreen() != 0) return -1;	//ç”»é¢ã‚¯ãƒªã‚¢å‡¦ç†ãŒã‚¨ãƒ©ãƒ¼ãªã‚‰-1ã‚’è¿”ã™
+	if(Keyboard::update() != 0) return -1;	//ã‚­ãƒ¼ã®ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆå‡¦ç†ãŒã‚¨ãƒ©ãƒ¼ãªã‚‰-1ã‚’è¿”ã™
 	return 0;
 }
 
@@ -53,7 +53,7 @@ void SceneManager::run(BaseScene* starter){
 
 	current_scene = starter;
 	BaseScene* next_scene = nullptr;
-	//ƒƒCƒ“ƒ‹[ƒvŠJŽn
+	//ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—é–‹å§‹
 	do{
 		next_scene = current_scene->main();
 		delete current_scene;

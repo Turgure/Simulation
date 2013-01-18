@@ -1,4 +1,4 @@
-#include <DxLib.h>
+﻿#include <DxLib.h>
 #include "Cursor.h"
 #include "Keyboard.h"
 #include "Event.h"
@@ -18,7 +18,7 @@ void Cursor::update(){
 	if(Keyboard::get(KEY_INPUT_UP) == 1)	this->y -= 1;
 	if(Keyboard::get(KEY_INPUT_DOWN) == 1)	this->y += 1;
 
-	//�X�e�[�W�O�ɂ͂ݏo�Ȃ��悤�ɂ���
+	//ステージ外にはみ出ないようにする
 	if(x < 0) x = 0;
 	if(y < 0) y = 0;
 	if(x > 9) x = 9;

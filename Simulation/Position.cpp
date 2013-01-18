@@ -1,4 +1,4 @@
-#include <DxLib.h>
+﻿#include <DxLib.h>
 #include "Position.h"
 
 Position::Position(int x, int y){

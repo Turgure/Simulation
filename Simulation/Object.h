@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include "Position.h"
 #include "Event.h"
 
 using namespace std;
 
-//ƒIƒuƒWƒFƒNƒg‚ÌŠî’êƒNƒ‰ƒX
+//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åŸºåº•ã‚¯ãƒ©ã‚¹
 class BaseObject{
 public:
 	BaseObject(){};
@@ -22,7 +22,7 @@ protected:
 };
 
 class Enemy;
-//ƒvƒŒƒCƒ„[ƒNƒ‰ƒX
+//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¯ãƒ©ã‚¹
 class Player : public BaseObject{
 public:
 	Player(int x, int y, int id);
@@ -49,7 +49,7 @@ public:
 };
 
 
-//ƒGƒlƒ~[ƒNƒ‰ƒX
+//ã‚¨ãƒãƒŸãƒ¼ã‚¯ãƒ©ã‚¹
 class Enemy : public BaseObject{
 public:
 	Enemy(int x, int y, int id);

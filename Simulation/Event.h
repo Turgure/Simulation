@@ -1,39 +1,39 @@
-#pragma once
+ï»¿#pragma once
 
 class Event{
 public:
-	//ƒ}ƒbƒv‚ÌƒZƒ‹‚ğ’PˆÊ‚Æ‚µ‚½•`‰æ
+	//ãƒãƒƒãƒ—ã®ã‚»ãƒ«ã‚’å˜ä½ã¨ã—ãŸæç”»
 	static void DrawGraphOnMap(int x, int y, int image);
 
-	//1ƒ}ƒX
+	//1ãƒã‚¹
 	static void point(int x, int y);
 	
-	//‹——£
-	//static void spot1(int x, int y, int n);	//nƒ}ƒXæ‚Ì‘O•û1ƒ}ƒX
-	//static void spot2(int x, int y, int n);	//nƒ}ƒXæ‚Ì‘OŒã2ƒ}ƒX
+	//è·é›¢
+	//static void spot1(int x, int y, int n);	//nãƒã‚¹å…ˆã®å‰æ–¹1ãƒã‚¹
+	//static void spot2(int x, int y, int n);	//nãƒã‚¹å…ˆã®å‰å¾Œ2ãƒã‚¹
 
-	//(x, y)’†S‚Ånƒ}ƒXæ‚Ìƒ}ƒX
+	//(x, y)ä¸­å¿ƒã§nãƒã‚¹å…ˆã®ãƒã‚¹
 	static void spotReachTo(int x, int y, int n);
-	//(x, y)’†S‚Åmin_range‚©‚çmax_range‚Ü‚Å‚Ìƒ}ƒX
+	//(x, y)ä¸­å¿ƒã§min_rangeã‹ã‚‰max_rangeã¾ã§ã®ãƒã‚¹
 	static void spotReachTo(int x, int y, int min_range, int max_range);
-	//(x, y)‚ÌüˆÍ9ƒ}ƒX
+	//(x, y)ã®å‘¨å›²9ãƒã‚¹
 	static void spotAround(int x, int y);
 	
-	//”ÍˆÍ
+	//ç¯„å›²
 
-	//(x, y)’†S‚Ånƒ}ƒX”ÍˆÍ
+	//(x, y)ä¸­å¿ƒã§nãƒã‚¹ç¯„å›²
 	static void range(int x, int y, int n);
-	//(x, y)’†S‚Ånƒ}ƒX”ÍˆÍ(‚Í‚İo‚³‚È‚¢)
+	//(x, y)ä¸­å¿ƒã§nãƒã‚¹ç¯„å›²(ã¯ã¿å‡ºã•ãªã„)
 	static void rangeInField(int x, int y, int n);
-	//—ñ
-	//static void lineOne(int x, int y);	//‘O•û1—ñ
-	//static void lineTwo(int x, int y);	//‘SŒã•û1—ñ
+	//åˆ—
+	//static void lineOne(int x, int y);	//å‰æ–¹1åˆ—
+	//static void lineTwo(int x, int y);	//å…¨å¾Œæ–¹1åˆ—
 	
-	//‘OŒã¶‰E4—ñ
+	//å‰å¾Œå·¦å³4åˆ—
 	static void lineFour(int x, int y);
-	//‘OŒã¶‰El—ñ•\¦(‚Í‚İo‚³‚È‚¢)
+	//å‰å¾Œå·¦å³å››åˆ—è¡¨ç¤º(ã¯ã¿å‡ºã•ãªã„)
 	static void lineFourInField(int x, int y, int n);
-	//static void CrossFour(int x, int y);	//Î‚ß4—ñ
+	//static void CrossFour(int x, int y);	//æ–œã‚4åˆ—
 
 private:
 	static int color;

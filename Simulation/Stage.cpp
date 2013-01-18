@@ -1,4 +1,4 @@
-#include <DxLib.h>
+ï»¿#include <DxLib.h>
 #include "Stage.h"
 #include "MapchipDefinition.h"
 
@@ -33,12 +33,12 @@ void Stage::initID(){
 
 	for(auto& chip : mapchipStatus){
 		switch(chip.id){
-		case 0://ˆÚ“®•s‰Â
+		case 0://ç§»å‹•ä¸å¯
 			chip.movable = false;
 			chip.mapchip_color = GetColor(255, 128, 0);
 			break;
 
-		case 1://ˆÚ“®‰Â”\i1:‘Œ´, 2:Šâc@‚È‚Ç‚É‚·‚éj
+		case 1://ç§»å‹•å¯èƒ½ï¼ˆ1:è‰åŸ, 2:å²©â€¦ã€€ãªã©ã«ã™ã‚‹ï¼‰
 			chip.movable = true;
 			chip.mapchip_color = GetColor(128, 255, 0);
 			break;

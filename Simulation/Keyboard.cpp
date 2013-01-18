@@ -1,4 +1,4 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "Keyboard.h"
 
 int Keyboard::key[256];
@@ -11,7 +11,7 @@ int Keyboard::update(){
 	char tmpKey[256];
 	GetHitKeyStateAll(tmpKey);
 	for(int i = 0; i < 256; i++){
-		if(tmpKey[i] != 0){//i”Ô‚ÌƒL[‚ª‰Ÿ‚³‚ê‚½‚ç
+		if(tmpKey[i] != 0){//iç•ªã®ã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸã‚‰
 			key[i]++;
 		} else {
 			key[i] = 0;

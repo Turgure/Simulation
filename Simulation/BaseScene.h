@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 
-//ƒV[ƒ“Šî’êƒNƒ‰ƒX
-//‘SƒV[ƒ“ƒNƒ‰ƒX‚ÌŠî’êƒNƒ‰ƒXB‚±‚ÌƒNƒ‰ƒX‚Ìmain()‚ğ‹N“®‚·‚é‚±‚Æ‚Åê–Ê‚ªØ‚è‘Ö‚í‚éB
+//ã‚·ãƒ¼ãƒ³åŸºåº•ã‚¯ãƒ©ã‚¹
+//å…¨ã‚·ãƒ¼ãƒ³ã‚¯ãƒ©ã‚¹ã®åŸºåº•ã‚¯ãƒ©ã‚¹ã€‚ã“ã®ã‚¯ãƒ©ã‚¹ã®main()ã‚’èµ·å‹•ã™ã‚‹ã“ã¨ã§å ´é¢ãŒåˆ‡ã‚Šæ›¿ã‚ã‚‹ã€‚
 class BaseScene{
 public:
 	BaseScene(){};
@@ -18,12 +18,12 @@ protected:
 private:
 	int processLoop();
 	BaseScene* next_scene;
-	bool looping;	//ƒ‹[ƒv’†ƒtƒ‰ƒO
+	bool looping;	//ãƒ«ãƒ¼ãƒ—ä¸­ãƒ•ãƒ©ã‚°
 	static bool running;
 };
 
-//ƒV[ƒ“ŠÇ—ƒNƒ‰ƒX
-//ƒV[ƒ“‚Ì‘JˆÚ‚ÆÀs‚ğŠÇ—‚·‚éƒNƒ‰ƒX
+//ã‚·ãƒ¼ãƒ³ç®¡ç†ã‚¯ãƒ©ã‚¹
+//ã‚·ãƒ¼ãƒ³ã®é·ç§»ã¨å®Ÿè¡Œã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
 class SceneManager{
 	static bool running;
 	static BaseScene* current_scene;

@@ -1,4 +1,4 @@
-#include <DxLib.h>
+﻿#include <DxLib.h>
 #include "Object.h"
 #include "Cursor.h"
 #include "Event.h"

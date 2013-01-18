@@ -1,4 +1,4 @@
-#include <DxLib.h>
+ï»¿#include <DxLib.h>
 #include "Event.h"
 #include "Stage.h"
 #include "MapchipDefinition.h"
@@ -79,10 +79,10 @@ void Event::range(int x, int y, int n){
 //
 //void Event::lineFourInField(int x, int y, int n){
 //	
-//	//¶‚É‚Í‚İo‚³‚È‚¢
+//	//å·¦ã«ã¯ã¿å‡ºã•ãªã„
 //	for(int sleftline = n; sleftline > 0; sleftline--){
 //		int judge = (x-100)/32 - sleftline;
-//		if( judge >= 0){		//¶‚©‚ç0—ñ–ÚˆÈã
+//		if( judge >= 0){		//å·¦ã‹ã‚‰0åˆ—ç›®ä»¥ä¸Š
 //			point(100, y, judge, 0);
 //			//	break;
 //		}
@@ -90,28 +90,28 @@ void Event::range(int x, int y, int n){
 //
 //
 //
-//	//ã‚É‚Í‚İo‚³‚È‚¢
+//	//ä¸Šã«ã¯ã¿å‡ºã•ãªã„
 //	for(int supline = n; supline > 0; supline--){
 //		int judge = (y-100)/32 - supline;
-//		if( judge >= 0){		//ã‚©‚ç0—ñ–ÚˆÈã
+//		if( judge >= 0){		//ä¸Šã‹ã‚‰0åˆ—ç›®ä»¥ä¸Š
 //			point(x, 100, 0, judge);
 //			//	break;
 //		}
 //	}
 //	
-//	//‰E‚É‚Í‚İo‚³‚È‚¢
+//	//å³ã«ã¯ã¿å‡ºã•ãªã„
 //	for(int srightline = 1; srightline <= n; srightline++){
 //		int judge = (x-100)/32 + srightline;
-//		if( judge <= 8){		//	¶‚©‚ç8—ñ–ÚˆÈ‰º
+//		if( judge <= 8){		//	å·¦ã‹ã‚‰8åˆ—ç›®ä»¥ä¸‹
 //			point(100, y, judge, 0);
 //			//	break;
 //		}
 //	}
 //
-//	//‰º‚É‚Í‚İo‚³‚È‚¢
+//	//ä¸‹ã«ã¯ã¿å‡ºã•ãªã„
 //	for(int sunderline = 1; sunderline <= n; sunderline++){
 //		int judge = (y-100)/32 + sunderline;
-//		if( judge <= 8){		//	‰º‚©‚ç8—ñ–ÚˆÈ‰º
+//		if( judge <= 8){		//	ä¸‹ã‹ã‚‰8åˆ—ç›®ä»¥ä¸‹
 //			point(x, 100, 0, judge);
 //			//	break;
 //		}

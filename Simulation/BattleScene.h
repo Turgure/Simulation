@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <vector>
 #include "BaseScene.h"
 #include "Stage.h"
