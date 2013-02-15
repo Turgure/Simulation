@@ -7,8 +7,8 @@
 #include "MapchipDefinition.h"
 
 Player::Player(int x, int y, int id):varpos(x, y){
-	this->id = id;
-	image = GetColor(0, 0, 255);
+	status.id = id;
+	status.image = GetColor(0, 0, 255);
 	state = SELECT;
 	can_act = true;
 	can_move = true;
@@ -57,9 +57,9 @@ void Player::update(){
 }
 
 void Player::draw(){
-	Event::DrawGraphOnMap(varpos.getX(), varpos.getY(), image);
+	Event::DrawGraphOnMap(varpos.getX(), varpos.getY(), status.image);
 	if(varpos.targetted(Cursor::getX(), Cursor::getY())){
-		DrawFormatString(200,  0, GetColor(255,255,255), "player : %d", id);
+		DrawFormatString(200,  0, GetColor(255,255,255), "player : %d", status.id);
 	}
 
 	showCommand();

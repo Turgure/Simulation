@@ -15,10 +15,18 @@ protected:
 	virtual void update(){};
 	virtual void draw(){};
 
-	int image;
-	int id;
-	char* name;
-	int hp;
+	typedef struct{
+		int id;
+		int image;
+		char* name;
+		int maxhp;
+		int maxmp;
+		int hp;
+		int mp;
+		int str;
+		int def;
+		int agi;
+	}Status;
 };
 
 class Enemy;
@@ -41,6 +49,7 @@ private:
 	bool can_move;
 	bool can_attack;
 	enum State{SELECT, MOVE, ATTACK, END} state;
+	Status status;
 
 	Position varpos;
 
@@ -62,5 +71,7 @@ public:
 	Position pos(){ return varpos; }
 
 private:
+	Status status;
+
 	Position varpos;
 };
