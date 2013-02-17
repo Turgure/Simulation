@@ -6,9 +6,14 @@
 #include "Stage.h"
 #include "MapchipDefinition.h"
 
-Player::Player(int x, int y, int id):varpos(x, y){
-	status.id = id;
+Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi):varpos(x, y){
 	status.image = GetColor(0, 0, 255);
+	status.id = id;
+	status.maxhp = hp, status.hp = status.maxhp;
+	status.maxmp = mp, status.mp = status.maxmp;
+	status.str = str;
+	status.def = def;
+	status.agi = agi;
 	state = SELECT;
 	can_act = true;
 	can_move = true;
@@ -59,7 +64,7 @@ void Player::update(){
 void Player::draw(){
 	Event::DrawGraphOnMap(varpos.getX(), varpos.getY(), status.image);
 	if(varpos.targetted(Cursor::getX(), Cursor::getY())){
-		DrawFormatString(200,  0, GetColor(255,255,255), "player : %d", status.id);
+		showStatus(status);
 	}
 
 	showCommand();
@@ -81,27 +86,29 @@ void Player::showCommand(){
 	case SELECT:
 		if(varpos.targetted(Cursor::getX(), Cursor::getY())){
 			if(can_move){
-				DrawString(200,  16, "MOVE   : key 1", GetColor(255,255,255));
+				DrawString(400, 0, "MOVE   : key 1", GetColor(255,255,255));
 			}
 			if(can_attack){
-				DrawString(200, 32, "ATTACK : key 2", GetColor(255,255,255));
+				DrawString(400, 16, "ATTACK : key 2", GetColor(255,255,255));
 			}
-			DrawString(200, 48, "END    : key 3", GetColor(255,255,255));
+			DrawString(400, 32, "END    : key 3", GetColor(255,255,255));
+
+			
 		}
 		break;
 	case MOVE:
-		DrawString(200, 16, "where?", GetColor(255,255,255));
-		DrawString(200, 32, "assign : key 1", GetColor(255,255,255));
-		DrawString(200, 48, "cancel : key 3", GetColor(255,255,255));
+		DrawString(400,  0, "where?", GetColor(255,255,255));
+		DrawString(400, 16, "assign : key 1", GetColor(255,255,255));
+		DrawString(400, 32, "cancel : key 3", GetColor(255,255,255));
 		break;
 	case ATTACK:
-		DrawString(200, 16, "to whom?", GetColor(255,255,255));
-		DrawString(200, 32, "assign : key 1", GetColor(255,255,255));
-		DrawString(200, 48, "cancel : key 3", GetColor(255,255,255));
+		DrawString(400,  0, "to whom?", GetColor(255,255,255));
+		DrawString(400, 16, "assign : key 1", GetColor(255,255,255));
+		DrawString(400, 32, "cancel : key 3", GetColor(255,255,255));
 		break;
 	case END:
 		if(varpos.targetted(Cursor::getX(), Cursor::getY())) 
-			DrawString(200, 16, "end.", GetColor(255,255,255));
+			DrawString(400,  0, "end.", GetColor(255,255,255));
 		break;
 	}
 }
@@ -113,7 +120,7 @@ void Player::react(){
 	can_attack = true;
 }
 
-void Player::attack(vector<Enemy>& enemies){
+void Player::attack(vector<Enemy> &enemies){
 	if(state != ATTACK) return;
 
 	if(Keyboard::get(KEY_INPUT_3) == 1) state = SELECT;
@@ -123,7 +130,12 @@ void Player::attack(vector<Enemy>& enemies){
 			if(Stage::getBrightPoints(Cursor::getX(), Cursor::getY())){
 				if(enemy.pos().targetted(Cursor::getX(), Cursor::getY())){
 					can_attack = false;
-					enemy.setHP(enemy.getHP() - 1);
+					
+					int diff = status.str - enemy.getDef();
+					if(diff <= 0){
+						break;
+					}
+					enemy.setHP(enemy.getHP() - diff);
 					break;
 				}
 			}

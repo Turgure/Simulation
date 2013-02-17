@@ -4,11 +4,14 @@
 #include "Event.h"
 #include "MapchipDefinition.h"
 
-Enemy::Enemy(int x, int y, int id):varpos(x, y){
-	status.maxhp = 3;
-	status.hp = status.maxhp;
-	status.id = id;
+Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi):varpos(x, y){
 	status.image = GetColor(255, 0, 0);
+	status.id = id;
+	status.maxhp = hp, status.hp = status.maxhp;
+	status.maxmp = mp, status.mp = status.maxmp;
+	status.str = str;
+	status.def = def;
+	status.agi = agi;
 }
 
 void Enemy::update(){
@@ -18,10 +21,6 @@ void Enemy::draw(){
 	Event::DrawGraphOnMap(varpos.getX(), varpos.getY(), status.image);
 
 	if(varpos.targetted(Cursor::getX(), Cursor::getY())){
-		DrawFormatString(0, 100, GetColor(255,255,255), "enemy : %d", status.id);
-		DrawFormatString(0, 116, GetColor(255,255,255), "hp %d", status.hp);
+		showStatus(status);
 	}
 }
-
-void Enemy::setHP(int hp){ status.hp = hp; }
-int Enemy::getHP() const { return status.hp; }

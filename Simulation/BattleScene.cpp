@@ -12,7 +12,7 @@ void BattleScene::initialize(){
 	turn = 1;
 	stage.initialize();
 	
-	players.push_back( Player(4, 3, players.size()) );
+	ObjectManager::create(players);
 
 	for(int i = 0; i < 5; i++){
 		int x, y;
@@ -21,7 +21,7 @@ void BattleScene::initialize(){
 			y = GetRand(9);
 		}while(!stage.canMove(x, y));
 
-		enemies.push_back( Enemy(x, y, enemies.size()) );
+		enemies.push_back( Enemy(x, y, enemies.size(), 3, 3, 3, 3, 3) );
 	}
 }
 

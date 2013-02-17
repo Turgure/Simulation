@@ -27,13 +27,14 @@ protected:
 		int def;
 		int agi;
 	}Status;
+	void showStatus(Status st);
 };
 
 class Enemy;
 //プレイヤークラス
 class Player : public BaseObject{
 public:
-	Player(int x, int y, int id);
+	Player(int x, int y, int id, int hp, int mp, int str, int def, int agi);
 	virtual void update() override;
 	virtual void draw() override;
 	
@@ -61,12 +62,20 @@ public:
 //エネミークラス
 class Enemy : public BaseObject{
 public:
-	Enemy(int x, int y, int id);
+	Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi);
 	virtual void update() override;
 	virtual void draw() override;
 
-	void setHP(int hp);
-	int getHP() const;
+	void setHP(int hp){ status.hp = hp; }
+	int getHP() const { return status.hp; }
+	void setMP(int mp){ status.mp = mp; }
+	int getMP() const { return status.mp; }
+	void setStr(int str){ status.str = str; }
+	int getStr() const { return status.str; }
+	void setDef(int def){ status.def = def; }
+	int getDef() const { return status.def; }
+	void setAgi(int agi){ status.agi = agi; }
+	int getAgi() const { return status.agi; }
 
 	Position pos(){ return varpos; }
 

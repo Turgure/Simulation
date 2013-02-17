@@ -3,7 +3,7 @@
 #include "BaseScene.h"
 #include "Stage.h"
 #include "Cursor.h"
-#include "Object.h"
+#include "ObjectManager.h"
 
 using namespace std;
 
@@ -15,6 +15,7 @@ public:
 	virtual void draw() override;
 
 private:
+	int id, hp, mp, str, def, agi;
 	int turn;
 
 	Stage stage;
