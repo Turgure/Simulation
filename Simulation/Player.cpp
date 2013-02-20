@@ -15,50 +15,13 @@ Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi):
 	status.def = def;
 	status.agi = agi;
 	state = SELECT;
-	can_act = true;
+	ATBgage = 100;
 	can_move = true;
-	can_attack = true;
+	can_act = true;
 }
 
 void Player::update(){
-	switch(state){
-		if(can_act){
-	case SELECT:
-		Stage::eraseBrightPoints();
-		if(varpos.targetted(Cursor::getX(), Cursor::getY())){
-			if(Keyboard::get(KEY_INPUT_1) == 1 && can_move) state = MOVE;
-			if(Keyboard::get(KEY_INPUT_2) == 1 && can_attack) state = ATTACK;
-			if(Keyboard::get(KEY_INPUT_3) == 1) state = END;
-		}
-		break;
-
-	case MOVE:
-		if(Keyboard::get(KEY_INPUT_3) == 1) state = SELECT;
-		if(Keyboard::get(KEY_INPUT_1) == 1){
-			state = SELECT;
-			if(Stage::getBrightPoints(Cursor::getX(), Cursor::getY())){
-				can_move = false;
-				varpos.setXY(Cursor::getX(), Cursor::getY());
-			}
-		}
-		break;
-
-	case ATTACK:
-		//attack(enemies);
-		break;
-		}
-
-	case END:
-		can_act = false;
-		can_move = false;
-		can_attack = false;
-		Stage::eraseBrightPoints();
-		break;
-	}
-
-	if(!can_move && !can_attack){
-		state = END;
-	}
+	ATBgage -= status.agi;
 }
 
 void Player::draw(){
@@ -75,10 +38,57 @@ void Player::draw(){
 	case MOVE:
 		Event::range(varpos.getX(), varpos.getY(), 5);
 		break;
-	case ATTACK:
+	case ACTION:
 		Event::spotReachTo(varpos.getX(), varpos.getY(), 1, 3);
 		break;
 	}
+}
+
+void Player::doAction(){
+	DrawFormatString(0, 80, GetColor(255,255,255), "player %d's turn.", status.id);
+	
+	switch(state){
+	case SELECT:
+		Stage::eraseBrightPoints();
+		if(varpos.targetted(Cursor::getX(), Cursor::getY())){
+			if(Keyboard::get(KEY_INPUT_1) == 1 && can_move) state = MOVE;
+			if(Keyboard::get(KEY_INPUT_2) == 1 && can_act) state = ACTION;
+			if(Keyboard::get(KEY_INPUT_3) == 1) state = END;
+		}
+		break;
+
+	case MOVE:
+		if(Keyboard::get(KEY_INPUT_3) == 1) state = SELECT;
+		if(Keyboard::get(KEY_INPUT_1) == 1){
+			state = SELECT;
+			if(Stage::getBrightPoints(Cursor::getX(), Cursor::getY())){
+				can_move = false;
+				varpos.setXY(Cursor::getX(), Cursor::getY());
+			}
+		}
+		break;
+
+	case ACTION:
+		//attack(enemies);
+		break;
+
+	case END:
+		can_move = false;
+		can_act = false;
+		Stage::eraseBrightPoints();
+		break;
+	}
+
+	if(!can_move && !can_act){
+		state = END;
+	}
+}
+
+void Player::EndMyTurn(){
+	state = SELECT;
+	ATBgage += 20;
+	if(!can_move) ATBgage += 40;
+	if(!can_act) ATBgage += 60;
 }
 
 void Player::showCommand(){
@@ -88,12 +98,12 @@ void Player::showCommand(){
 			if(can_move){
 				DrawString(400, 0, "MOVE   : key 1", GetColor(255,255,255));
 			}
-			if(can_attack){
-				DrawString(400, 16, "ATTACK : key 2", GetColor(255,255,255));
+			if(can_act){
+				DrawString(400, 16, "ACTION : key 2", GetColor(255,255,255));
 			}
 			DrawString(400, 32, "END    : key 3", GetColor(255,255,255));
 
-			
+
 		}
 		break;
 	case MOVE:
@@ -101,7 +111,7 @@ void Player::showCommand(){
 		DrawString(400, 16, "assign : key 1", GetColor(255,255,255));
 		DrawString(400, 32, "cancel : key 3", GetColor(255,255,255));
 		break;
-	case ATTACK:
+	case ACTION:
 		DrawString(400,  0, "to whom?", GetColor(255,255,255));
 		DrawString(400, 16, "assign : key 1", GetColor(255,255,255));
 		DrawString(400, 32, "cancel : key 3", GetColor(255,255,255));
@@ -114,14 +124,12 @@ void Player::showCommand(){
 }
 
 void Player::react(){
-	state = SELECT;
-	can_act = true;
 	can_move = true;
-	can_attack = true;
+	can_act = true;
 }
 
 void Player::attack(vector<Enemy> &enemies){
-	if(state != ATTACK) return;
+	if(state != ACTION) return;
 
 	if(Keyboard::get(KEY_INPUT_3) == 1) state = SELECT;
 	if(Keyboard::get(KEY_INPUT_1) == 1){
@@ -129,8 +137,8 @@ void Player::attack(vector<Enemy> &enemies){
 		for(auto& enemy : enemies){
 			if(Stage::getBrightPoints(Cursor::getX(), Cursor::getY())){
 				if(enemy.pos().targetted(Cursor::getX(), Cursor::getY())){
-					can_attack = false;
-					
+					can_act = false;
+
 					int diff = status.str - enemy.getDef();
 					if(diff <= 0){
 						break;

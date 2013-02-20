@@ -11,9 +11,13 @@ public:
 	BaseObject(){};
 	virtual ~BaseObject(){};
 
+	bool isMyTurn();
+
 protected:
 	virtual void update(){};
 	virtual void draw(){};
+	virtual void doAction(){};
+	virtual void EndMyTurn(){};
 
 	typedef struct{
 		int id;
@@ -27,6 +31,9 @@ protected:
 		int def;
 		int agi;
 	}Status;
+	bool can_move;
+	bool can_act;
+	int ATBgage;
 	void showStatus(Status st);
 };
 
@@ -37,25 +44,21 @@ public:
 	Player(int x, int y, int id, int hp, int mp, int str, int def, int agi);
 	virtual void update() override;
 	virtual void draw() override;
-	
-	void attack(vector<Enemy>& enemies);
+	virtual void doAction() override;
+	virtual void EndMyTurn() override;
 
 	void showCommand();
 	void react();
 
+	void attack(vector<Enemy>& enemies);
+
 	Position pos(){ return varpos; }
 
 private:
-	bool can_act;
-	bool can_move;
-	bool can_attack;
-	enum State{SELECT, MOVE, ATTACK, END} state;
+	enum State{SELECT, MOVE, ACTION, END} state;
 	Status status;
 
 	Position varpos;
-
-public:
-	State getState() const {return state; }
 };
 
 
@@ -65,6 +68,10 @@ public:
 	Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi);
 	virtual void update() override;
 	virtual void draw() override;
+	virtual void doAction() override;
+	virtual void EndMyTurn() override;
+
+	bool isCntOver();
 
 	void setHP(int hp){ status.hp = hp; }
 	int getHP() const { return status.hp; }
@@ -80,6 +87,8 @@ public:
 	Position pos(){ return varpos; }
 
 private:
+	int cnt;
+
 	Status status;
 
 	Position varpos;

@@ -1,6 +1,14 @@
 #include <DxLib.h>
 #include "Object.h"
 
+bool BaseObject::isMyTurn(){
+	if(ATBgage <= 0){
+		ATBgage = 0;
+		return true;
+	}
+	else return false;
+}
+
 void BaseObject::showStatus(Status st){
 	DrawFormatString(200,  0, GetColor(255,255,255), "id  %d", st.id);
 	DrawFormatString(200, 16, GetColor(255,255,255), "hp  %d/%d", st.hp, st.maxhp);

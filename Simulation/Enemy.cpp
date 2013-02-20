@@ -12,9 +12,12 @@ Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi):va
 	status.str = str;
 	status.def = def;
 	status.agi = agi;
+	ATBgage = 100;
+	cnt = 0;
 }
 
 void Enemy::update(){
+	ATBgage -= status.agi;
 }
 
 void Enemy::draw(){
@@ -23,4 +26,19 @@ void Enemy::draw(){
 	if(varpos.targetted(Cursor::getX(), Cursor::getY())){
 		showStatus(status);
 	}
+}
+
+void Enemy::doAction(){
+	DrawFormatString(0, 80, GetColor(255,255,255), "enemy %d's turn.", status.id);
+	++cnt;
+}
+
+void Enemy::EndMyTurn(){
+	cnt = 0;
+	ATBgage =  100;
+}
+
+bool Enemy::isCntOver(){
+	if(cnt >= 20000) return true;
+	else return false;
 }

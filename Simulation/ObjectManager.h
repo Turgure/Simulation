@@ -5,8 +5,8 @@ using namespace std;
 
 class ObjectManager{
 public:
-	static void create(vector<Player> &players);
-	static void create(vector<Enemy> &enemies);
+	static void create(vector<Player> &players, const char* file, int x, int y);
+	static void create(vector<Enemy> &enemies, const char* file, int x, int y);
 
 private:
 	static int id;

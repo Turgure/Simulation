@@ -5,14 +5,16 @@
 #include "Cursor.h"
 
 BattleScene::BattleScene():cursor(5, 8){
-	phase = PLAYER;
+	cnt = 0;
+	isMoving = false;
 }
 
 void BattleScene::initialize(){
 	turn = 1;
 	stage.initialize();
-	
-	ObjectManager::create(players);
+
+	ObjectManager::create(players, "data/chara/player1.csv", 4, 3);
+	ObjectManager::create(players, "data/chara/player2.csv", 5, 3);
 
 	for(int i = 0; i < 5; i++){
 		int x, y;
@@ -26,24 +28,59 @@ void BattleScene::initialize(){
 }
 
 void BattleScene::update(){
-	switch(phase){
-	case PLAYER:
-		for(auto& player : players){
-			player.update();
-			player.attack(enemies);
+	//check
+	for(auto& player : players){
+		if(player.isMyTurn()){
+			isMoving = true;
 		}
-		cursor.update();
-		break;
-	case ENEMY:
-		phase = PLAYER;
-		break;
-	case NEUTRAL:
-		phase = PLAYER;
-		for(auto& player : players) player.react();
-		++turn;
-		break;
+	}
+	for(auto& enemy : enemies){
+		if(enemy.isMyTurn()){
+			isMoving = true;
+		}
 	}
 
+	//add ATBgage
+	if(!isMoving){
+		for(auto& player : players){
+			player.update();
+		}
+		for(auto& enemy : enemies){
+			enemy.update();
+		}
+	}
+	//do action
+	else {
+		for(auto& player : players){
+			if(player.isMyTurn()){
+				player.doAction();
+				player.attack(enemies);
+				if(Keyboard::get(KEY_INPUT_9) == 1){
+					player.EndMyTurn();
+					player.react();
+					isMoving = false;
+				}
+			}
+		}
+
+		for(auto& enemy : enemies){
+			if(enemy.isMyTurn()){
+				while(!enemy.isCntOver()){
+					enemy.doAction();
+				}
+				enemy.EndMyTurn();
+				isMoving = false;
+				break;
+			}
+		}
+
+		cursor.update();
+	}
+
+
+	//++turn;
+
+	//delete
 	auto enemy = enemies.begin();
 	while(enemy != enemies.end()){
 		if(enemy->getHP() <= 0){
@@ -53,9 +90,7 @@ void BattleScene::update(){
 		}
 	}
 
-
-	if(Keyboard::get(KEY_INPUT_9) == 1) phase = NEUTRAL;
-	
+	//change scene
 	if(enemies.empty()){
 		changeScene(new HomeScene);
 	}
@@ -63,8 +98,8 @@ void BattleScene::update(){
 
 void BattleScene::draw(){
 	DrawFormatString(0, 0, GetColor(255,255,255), "turn : %d", turn);
-	DrawFormatString(0, 16, GetColor(255,255,255), "phase : %d", phase);
-	DrawString(0, 32, "change phase : key 9", GetColor(255,255,255));
+	DrawString(0, 16, "turn end : key 9", GetColor(255,255,255));
+	if(!isMoving) DrawString(0, 32, "waiting...", GetColor(255,255,255));
 
 	stage.draw();
 

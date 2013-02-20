@@ -17,11 +17,11 @@ public:
 private:
 	int id, hp, mp, str, def, agi;
 	int turn;
+	bool isMoving;
+	int cnt;
 
 	Stage stage;
 	Cursor cursor;
 	vector<Player> players;
 	vector<Enemy> enemies;
-
-	enum Phase{PLAYER, ENEMY, NEUTRAL} phase;
 };
