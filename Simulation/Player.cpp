@@ -39,7 +39,7 @@ void Player::draw(){
 	case SELECT:
 		break;
 	case MOVE:
-		Event::range(varpos.getX(), varpos.getY(), 5);
+		Event::range(varpos.getX(), varpos.getY(), 5, true);
 		break;
 	case ACTION:
 		Event::spotReachTo(varpos.getX(), varpos.getY(), 1, 3);

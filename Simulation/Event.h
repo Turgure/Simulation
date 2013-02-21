@@ -22,7 +22,8 @@ public:
 	//範囲
 
 	//(x, y)中心でnマス範囲
-	static void range(int x, int y, int n);
+	static void range(int x, int y, int n, bool consider_resistance);
+
 	//(x, y)中心でnマス範囲(はみ出さない)
 	static void rangeInField(int x, int y, int n);
 	//列

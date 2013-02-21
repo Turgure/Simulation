@@ -44,24 +44,24 @@ void Event::spotAround(int x, int y){
 	point(x + 1, y + 1);
 }
 
-void Event::range(int x, int y, int n){
+void Event::range(int x, int y, int n, bool consider_resistance){
 	if(n <= 0) return;
 	
 	if(Stage::canMove(x-1, y)){
 		Stage::setBrightPoints(x-1, y, color);
-		range(x-1, y, n-1);
+		range(x-1, y, n - (1 + Stage::getResistance(x-1, y)), consider_resistance);
 	}
 	if(Stage::canMove(x+1, y)){
 		Stage::setBrightPoints(x+1, y, color);
-		range(x+1, y, n-1);
+		range(x+1, y, n - (1 + Stage::getResistance(x+1, y)), consider_resistance);
 	}
 	if(Stage::canMove(x, y-1)){
 		Stage::setBrightPoints(x, y-1, color);
-		range(x, y-1, n-1);
+		range(x, y-1, n - (1 + Stage::getResistance(x, y-1)), consider_resistance);
 	}
 	if(Stage::canMove(x, y+1)){
 		Stage::setBrightPoints(x, y+1, color);
-		range(x, y+1, n-1);
+		range(x, y+1, n - (1 + Stage::getResistance(x, y+1)), consider_resistance);
 	}
 }
 
