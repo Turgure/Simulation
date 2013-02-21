@@ -2,6 +2,7 @@
 #include "Cursor.h"
 #include "Keyboard.h"
 #include "Event.h"
+#include "Stage.h"
 #include "MapchipDefinition.h"
 
 int Cursor::x;
@@ -21,10 +22,10 @@ void Cursor::update(){
 	//ステージ外にはみ出ないようにする
 	if(x < 0) x = 0;
 	if(y < 0) y = 0;
-	if(x > 9) x = 9;
-	if(y > 9) y = 9;
+	if(x > Stage::getWidth()) x = Stage::getWidth();
+	if(y > Stage::getHeight()) y = Stage::getHeight();
 }
 
 void Cursor::draw(){
-	Event::DrawGraphOnMap(x, y, image);
+	DrawBox(100 + x*mapsize +5, 100 + y*mapsize +5, 100 + (x+1)*mapsize -5, 100 + (y+1)*mapsize -5, image, false);
 }	

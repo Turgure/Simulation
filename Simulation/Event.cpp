@@ -5,13 +5,13 @@
 
 int Event::color = GetColor(102,255,255);
 
-void Event::DrawGraphOnMap(int x, int y, int image){
+void Event::DrawGraphOnMap(int x, int y, int image, bool FillFlag){
 	//DrawGraph(100 + x*mapsize, 100 + y*mapsize, image, true);
-	DrawBox(100 + x*mapsize, 100 + y*mapsize, 100 + (x+1)*mapsize, 100 + (y+1)*mapsize, image, true);
+	DrawBox(100 + x*mapsize, 100 + y*mapsize, 100 + (x+1)*mapsize, 100 + (y+1)*mapsize, image, FillFlag);
 }
 
 void Event::point(int x, int y){
-	DrawGraphOnMap(x, y, color);
+	DrawGraphOnMap(x, y, color, true);
 }
 
 void Event::spotReachTo(int x, int y, int n){

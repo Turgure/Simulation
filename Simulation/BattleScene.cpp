@@ -28,29 +28,25 @@ void BattleScene::initialize(){
 }
 
 void BattleScene::update(){
-	//check
 	for(auto& player : players){
-		if(player.isMyTurn()){
+		//check
+		if(player.isMyTurn())
 			isMoving = true;
-		}
+		//sub ATBgauge
+		if(!isMoving)
+			player.update();
 	}
 	for(auto& enemy : enemies){
-		if(enemy.isMyTurn()){
+		//check
+		if(enemy.isMyTurn())
 			isMoving = true;
-		}
+		//sub ATBgauge
+		if(!isMoving)
+			enemy.update();
 	}
 
-	//add ATBgage
-	if(!isMoving){
-		for(auto& player : players){
-			player.update();
-		}
-		for(auto& enemy : enemies){
-			enemy.update();
-		}
-	}
 	//do action
-	else {
+	if(isMoving){
 		for(auto& player : players){
 			if(player.isMyTurn()){
 				player.doAction();

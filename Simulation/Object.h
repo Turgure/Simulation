@@ -33,7 +33,7 @@ protected:
 	}Status;
 	bool can_move;
 	bool can_act;
-	int ATBgage;
+	int ATBgauge;
 	void showStatus(Status st);
 };
 

@@ -12,16 +12,18 @@ Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi):va
 	status.str = str;
 	status.def = def;
 	status.agi = agi;
-	ATBgage = 100;
+	ATBgauge = 100;
 	cnt = 0;
 }
 
 void Enemy::update(){
-	ATBgage -= status.agi;
+	ATBgauge -= status.agi;
 }
 
 void Enemy::draw(){
-	Event::DrawGraphOnMap(varpos.getX(), varpos.getY(), status.image);
+	Event::DrawGraphOnMap(varpos.getX(), varpos.getY(), status.image, true);
+	//show id
+	DrawFormatString(100 + varpos.getX()*mapsize, 100 + varpos.getY()*mapsize, GetColor(255,255,255), "%d", status.id);
 
 	if(varpos.targetted(Cursor::getX(), Cursor::getY())){
 		showStatus(status);
@@ -35,10 +37,9 @@ void Enemy::doAction(){
 
 void Enemy::EndMyTurn(){
 	cnt = 0;
-	ATBgage =  100;
+	ATBgauge =  100;
 }
 
 bool Enemy::isCntOver(){
-	if(cnt >= 20000) return true;
-	else return false;
+	return (cnt >= 20000);
 }

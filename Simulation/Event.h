@@ -3,7 +3,7 @@
 class Event{
 public:
 	//マップのセルを単位とした描画
-	static void DrawGraphOnMap(int x, int y, int image);
+	static void DrawGraphOnMap(int x, int y, int image, bool FillFlag);
 
 	//1マス
 	static void point(int x, int y);

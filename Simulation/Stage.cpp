@@ -1,6 +1,7 @@
 ﻿#include <DxLib.h>
 #include "Stage.h"
 #include "MapchipDefinition.h"
+#include "Event.h"
 
 int Stage::map[height][width] = {
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -72,7 +73,7 @@ void Stage::draw(){
 void Stage::drawMap(){
 	for(int h = 0; h < height; h++){
 		for(int w = 0; w < width; w++){
-			DrawBox(100 + w*mapsize, 100 + h*mapsize, 100 + (w+1)*mapsize, 100 + (h+1)*mapsize, mapchip[h][w].mapchip_color, false);
+			Event::DrawGraphOnMap(w, h, mapchip[h][w].mapchip_color, false);
 		}
 	}
 }
@@ -81,7 +82,7 @@ void Stage::drawBrightPoints(){
 	for(int h = 0; h < height; h++){
 		for(int w = 0; w < width; w++){
 			if(mapchip[h][w].can_move_object){
-				DrawBox(100 + w*mapsize, 100 + h*mapsize, 100 + (w+1)*mapsize, 100 + (h+1)*mapsize, mapchip[h][w].bright_color, true);
+				Event::DrawGraphOnMap(w, h, mapchip[h][w].bright_color, true);
 			}
 		}
 	}
@@ -106,8 +107,7 @@ void Stage::eraseBrightPoints(){
 
 bool Stage::canMove(int x, int y){
 	if(x >= 0 && y >= 0 && x < width && y < height){
-		if(map[y][x] != 0) return true;
-		else return false;
+		return (map[y][x] != 0);
 	} else {
 		return false;
 	}

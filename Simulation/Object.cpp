@@ -2,8 +2,8 @@
 #include "Object.h"
 
 bool BaseObject::isMyTurn(){
-	if(ATBgage <= 0){
-		ATBgage = 0;
+	if(ATBgauge <= 0){
+		ATBgauge = 0;
 		return true;
 	}
 	else return false;

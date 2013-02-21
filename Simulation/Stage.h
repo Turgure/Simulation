@@ -17,6 +17,9 @@ public:
 	static void eraseBrightPoints();
 	static bool canMove(int x, int y);
 
+	static int getWidth(){ return width; }
+	static int getHeight(){ return height; }
+
 private:
 	static const int width = 10;
 	static const int height = 10;
