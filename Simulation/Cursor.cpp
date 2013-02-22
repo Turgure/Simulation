@@ -5,27 +5,25 @@
 #include "Stage.h"
 #include "MapchipDefinition.h"
 
-int Cursor::x;
-int Cursor::y;
+Position Cursor::varpos(0,0);
 
 Cursor::Cursor(int x, int y){
-	this->x = x, this->y =  y;
 	image = GetColor(0, 155, 0);
 }
 
 void Cursor::update(){
-	if(Keyboard::get(KEY_INPUT_LEFT) == 1)	this->x -= 1;
-	if(Keyboard::get(KEY_INPUT_RIGHT) == 1)	this->x += 1;
-	if(Keyboard::get(KEY_INPUT_UP) == 1)	this->y -= 1;
-	if(Keyboard::get(KEY_INPUT_DOWN) == 1)	this->y += 1;
+	if(Keyboard::get(KEY_INPUT_LEFT) == 1)	varpos.MoveByMap(-1,  0);
+	if(Keyboard::get(KEY_INPUT_RIGHT) == 1)	varpos.MoveByMap( 1,  0);
+	if(Keyboard::get(KEY_INPUT_UP) == 1)	varpos.MoveByMap( 0, -1);
+	if(Keyboard::get(KEY_INPUT_DOWN) == 1)	varpos.MoveByMap( 0,  1);
 
 	//ステージ外にはみ出ないようにする
-	if(x < 0) x = 0;
-	if(y < 0) y = 0;
-	if(x > Stage::getWidth()) x = Stage::getWidth();
-	if(y > Stage::getHeight()) y = Stage::getHeight();
+	if(varpos.getXByMap() < 0) varpos.setXByMap(0);
+	if(varpos.getYByMap() < 0) varpos.setYByMap(0);
+	if(varpos.getXByMap() > Stage::getWidth()-1) varpos.setXByMap(Stage::getWidth()-1);
+	if(varpos.getYByMap() > Stage::getHeight()-1) varpos.setYByMap(Stage::getHeight()-1);
 }
 
 void Cursor::draw(){
-	DrawBox(100 + x*mapsize +5, 100 + y*mapsize +5, 100 + (x+1)*mapsize -5, 100 + (y+1)*mapsize -5, image, false);
-}	
+	DrawBox(varpos.getXByPx() +5, varpos.getYByPx() +5, varpos.getXByPx()+mapsize -5, varpos.getYByPx()+mapsize -5, image, false);
+}

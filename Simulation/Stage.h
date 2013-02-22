@@ -9,6 +9,7 @@ public:
 	void initID();
 	void initMap();
 	
+	void update();
 	void draw();
 	void drawMap();
 	void drawBrightPoints();
@@ -21,13 +22,16 @@ public:
 
 	static int getWidth(){ return width; }
 	static int getHeight(){ return height; }
+	static int getLeftupPositionX(){ return leftup_positionX; }
+	static int getLeftupPositionY(){ return leftup_positionY; }
 
 private:
-	static const int width = 10;
-	static const int height = 10;
-
-	static int map[height][width];
 	int current_map;
+
+	static int width;
+	static int height;
+	static int leftup_positionX;
+	static int leftup_positionY;
 
 	FILE* fp;
 	int ret;
@@ -41,6 +45,7 @@ private:
 	};
 
 	struct Mapchip{
+		int id;
 		int mapchip_color;
 		int resistance;
 		int bright_color;
@@ -48,5 +53,5 @@ private:
 	};
 
 	vector<MapchipStatus> mapchipStatus;
-	static Mapchip mapchip[height][width];
+	static Mapchip mapchip[100][100];	//予め100x100のメモリを確保
 };

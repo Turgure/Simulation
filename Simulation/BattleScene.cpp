@@ -4,8 +4,7 @@
 #include "Keyboard.h"
 #include "Cursor.h"
 
-BattleScene::BattleScene():cursor(5, 8){
-	cnt = 0;
+BattleScene::BattleScene():cursor(5, 5){
 	isMoving = false;
 }
 
@@ -28,6 +27,8 @@ void BattleScene::initialize(){
 }
 
 void BattleScene::update(){
+	stage.update();
+
 	for(auto& player : players){
 		//check
 		if(player.isMyTurn())

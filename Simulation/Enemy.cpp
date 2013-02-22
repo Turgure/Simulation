@@ -2,7 +2,7 @@
 #include "Object.h"
 #include "Cursor.h"
 #include "Event.h"
-#include "MapchipDefinition.h"
+#include "Stage.h"
 
 Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi):varpos(x, y){
 	status.image = GetColor(255, 0, 0);
@@ -21,11 +21,11 @@ void Enemy::update(){
 }
 
 void Enemy::draw(){
-	Event::DrawGraphOnMap(varpos.getX(), varpos.getY(), status.image, true);
+	Event::DrawGraphOnMap(varpos.getXByMap(), varpos.getYByMap(), status.image, true);
 	//show id
-	DrawFormatString(100 + varpos.getX()*mapsize, 100 + varpos.getY()*mapsize, GetColor(255,255,255), "%d", status.id);
+	DrawFormatString(varpos.getXByPx(), varpos.getYByPx(), GetColor(255,255,255), "%d", status.id);
 
-	if(varpos.targetted(Cursor::getX(), Cursor::getY())){
+	if(varpos.targetted(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
 		showStatus(status);
 	}
 }

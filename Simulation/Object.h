@@ -1,8 +1,7 @@
 ﻿#pragma once
 #include <vector>
 #include "Position.h"
-#include "Event.h"
-
+#include "MapchipDefinition.h"
 using namespace std;
 
 //オブジェクトの基底クラス
@@ -37,7 +36,27 @@ protected:
 	void showStatus(Status st);
 };
 
+class Player;
 class Enemy;
+//オブジェクト管理クラス
+//生成等を行う
+class ObjectManager{
+public:
+	static void create(vector<Player> &players, const char* file, int x, int y);
+	static void create(vector<Enemy> &enemies, const char* file, int x, int y);
+
+private:
+	static int id;
+	static int hp;
+	static int mp;
+	static int str;
+	static int def;
+	static int agi;
+	
+	static FILE* fp;
+	static int ret;
+};
+
 //プレイヤークラス
 class Player : public BaseObject{
 public:

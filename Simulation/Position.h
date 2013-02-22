@@ -3,17 +3,23 @@
 class Position{
 public:
 	Position(int x, int y);
-	void setX(int toX);
-	void setY(int toY);
-	int getX() const;
-	int getY() const;
-	
-	void setXY(int toX, int toY);
-	void Move(int diffX, int diffY);
+
+	void setXByPx(int toX);
+	void setYByPx(int toY);
+	int getXByPx() const;
+	int getYByPx() const;
+	void setXYByPx(int toX, int toY);
+	void MoveByPx(int diffX, int diffY);
+
+	void setXByMap(int toX);
+	void setYByMap(int toY);
+	int getXByMap() const;
+	int getYByMap() const;
+	void setXYByMap(int toX, int toY);
+	void MoveByMap(int diffX, int diffY);
 
 	bool targetted(int x, int y);
 
 private:
 	int x, y;
-	int mapsize;
 };

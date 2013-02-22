@@ -3,9 +3,13 @@
 #include "Stage.h"
 #include "MapchipDefinition.h"
 #include "Event.h"
+#include "Cursor.h"
 
-int Stage::map[height][width];
-Stage::Mapchip Stage::mapchip[height][width];
+int Stage::width;
+int Stage::height;
+int Stage::leftup_positionX = 128;
+int Stage::leftup_positionY = 128;
+Stage::Mapchip Stage::mapchip[100][100];
 
 Stage::Stage(){
 	initialize();
@@ -46,14 +50,15 @@ void Stage::initID(){
 }
 
 void Stage::initMap(){
-	if((fp = fopen("data/stage/map.csv", "r")) == NULL){
+	if((fp = fopen("data/stage/stage2/map.csv", "r")) == NULL){
 		printfDx("mapdata load error.");
 		return;
 	}
 
+	fscanf(fp, "%d, %d", &width, &height);	
 	int h = 0, w = 0;
 	while((ret = fscanf(fp, "%d, ", &mapid)) != EOF){
-		map[h][w] = mapid;
+		mapchip[h][w].id = mapid;
 		++w;
 		if(w >= width){
 			++h;
@@ -67,13 +72,32 @@ void Stage::initMap(){
 			mapchip[h][w].can_move_object = false;
 		
 			for(auto& chip : mapchipStatus){
-				if(map[h][w] == chip.id){
+				if(mapchip[h][w].id == chip.id){
 					mapchip[h][w].mapchip_color = chip.mapchip_color;
 					mapchip[h][w].resistance = chip.resistance;
 					break;
 				}
 			}
 		}
+	}
+}
+
+void Stage::update(){
+	if(Cursor::pos().getXByPx() < mapsize*3){
+		leftup_positionX += mapsize + 5;
+		Cursor::pos().setXByPx(mapsize*3);
+	}
+	if(Cursor::pos().getYByPx() < mapsize*3){
+		leftup_positionY += mapsize + 5;
+		Cursor::pos().setYByPx(mapsize*3);
+	}
+	if(Cursor::pos().getXByPx() > DEFAULT_SCREEN_SIZE_X - mapsize*3){
+		leftup_positionX -= mapsize - 5;
+		Cursor::pos().setXByPx((DEFAULT_SCREEN_SIZE_X-leftup_positionX)/mapsize - 3);
+	}
+	if(Cursor::pos().getYByPx() > DEFAULT_SCREEN_SIZE_Y - mapsize*3){
+		leftup_positionY -= mapsize - 5;
+		Cursor::pos().setYByPx((DEFAULT_SCREEN_SIZE_Y-leftup_positionY)/mapsize - 3);
 	}
 }
 
@@ -119,7 +143,7 @@ void Stage::eraseBrightPoints(){
 
 bool Stage::canMove(int x, int y){
 	if(x >= 0 && y >= 0 && x < width && y < height){
-		return (map[y][x] != 0);
+		return (mapchip[y][x].id != 0);
 	} else {
 		return false;
 	}
