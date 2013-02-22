@@ -3,6 +3,12 @@
 #include "Stage.h"
 #include "MapchipDefinition.h"
 
+int Event::dist[4][2] = {
+	{-1,  0},
+	{ 1,  0},
+	{ 0, -1},
+	{ 0,  1}
+};
 int Event::color = GetColor(102,255,255);
 
 void Event::DrawGraphOnMap(int x, int y, int image, bool FillFlag){
@@ -38,30 +44,25 @@ void Event::spotReachTo(int x, int y, int min_range, int max_range){
 }
 
 void Event::spotAround(int x, int y){
-	point(x - 1, y - 1);
-	point(x + 1, y - 1);
-	point(x - 1, y + 1);
-	point(x + 1, y + 1);
+	for(int i = 0; i < 4; ++i){
+		point(x + dist[i][0], y + dist[i][1]);
+	}
 }
 
 void Event::range(int x, int y, int n, bool consider_resistance){
 	if(n <= 0) return;
-	
-	if(Stage::canMove(x-1, y)){
-		Stage::setBrightPoints(x-1, y, color);
-		range(x-1, y, n - (1 + Stage::getResistance(x-1, y)), consider_resistance);
-	}
-	if(Stage::canMove(x+1, y)){
-		Stage::setBrightPoints(x+1, y, color);
-		range(x+1, y, n - (1 + Stage::getResistance(x+1, y)), consider_resistance);
-	}
-	if(Stage::canMove(x, y-1)){
-		Stage::setBrightPoints(x, y-1, color);
-		range(x, y-1, n - (1 + Stage::getResistance(x, y-1)), consider_resistance);
-	}
-	if(Stage::canMove(x, y+1)){
-		Stage::setBrightPoints(x, y+1, color);
-		range(x, y+1, n - (1 + Stage::getResistance(x, y+1)), consider_resistance);
+	int rest[4] = {
+		n - Stage::getResistance(x + dist[0][0], y + dist[0][1]),
+		n - Stage::getResistance(x + dist[1][0], y + dist[1][1]),
+		n - Stage::getResistance(x + dist[2][0], y + dist[2][1]),
+		n - Stage::getResistance(x + dist[3][0], y + dist[3][1])
+	};
+
+	for(int i = 0; i < 4; ++i){
+		if(Stage::canMove(x + dist[i][0], y + dist[i][1]) && rest[i] >= 0){
+			Stage::setBrightPoints(x + dist[i][0], y + dist[i][1], color);
+			range(x + dist[i][0], y + dist[i][1], rest[i], consider_resistance);
+		}
 	}
 }
 

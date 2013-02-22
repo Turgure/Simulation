@@ -37,5 +37,6 @@ public:
 	//static void CrossFour(int x, int y);	//斜め4列
 
 private:
+	static int dist[4][2];
 	static int color;
 };

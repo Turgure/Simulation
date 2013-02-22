@@ -25,20 +25,18 @@ void Stage::initID(){
 	for(auto& chip : mapchipStatus){
 		switch(chip.id){
 		case 0://chip which can't move 
-			chip.movable = false;
 			chip.mapchip_color = GetColor(255, 128, 0);
+			chip.resistance = INT_MAX;
 			break;
 
 		case 1://movable（id=1 => 草原, id=2 => 岩…　などにする）
-			chip.movable = true;
 			chip.mapchip_color = GetColor(128, 255, 0);
-			chip.resistance = 0;
+			chip.resistance = 1;
 			break;
 
         case 2://沼地的な
-            chip.movable = true;
             chip.mapchip_color = GetColor(128, 0, 128);
-            chip.resistance = 1;
+            chip.resistance = 2;
             break;
 
 		default:

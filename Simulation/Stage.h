@@ -36,7 +36,6 @@ private:
 	struct MapchipStatus{
 		MapchipStatus(int id){ this-> id = id; }
 		int id;
-		bool movable;
 		int mapchip_color;
 		int resistance;
 	};
