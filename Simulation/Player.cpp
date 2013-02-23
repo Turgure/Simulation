@@ -24,7 +24,7 @@ void Player::update(){
 }
 
 void Player::draw(){
-	Event::DrawGraphOnMap(varpos.getXByMap(), varpos.getYByMap(), status.image, true);
+	Event::DrawGraphOnMap(varpos.getXByMap(), varpos.getYByMap(), status.image);
 	//show id
 	DrawFormatString(varpos.getXByPx(), varpos.getYByPx(), GetColor(255,255,255), "%d", status.id);
 
@@ -38,10 +38,10 @@ void Player::draw(){
 	case SELECT:
 		break;
 	case MOVE:
-		Event::range(varpos.getXByMap(), varpos.getYByMap(), 5, true);
+		Event::range(varpos.getXByMap(), varpos.getYByMap(), Event::GetColorMove(), 5, true);
 		break;
 	case ACTION:
-		Event::spotReachTo(varpos.getXByMap(), varpos.getYByMap(), 1, 3);
+		Event::spotReachTo(varpos.getXByMap(), varpos.getYByMap(), Event::GetColorAttack(), 1, 3);
 		break;
 	}
 }

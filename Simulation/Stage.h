@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <vector>
+#include "Position.h"
 using namespace std;
 
 class Stage{
@@ -45,6 +46,8 @@ private:
 	};
 
 	struct Mapchip{
+		Mapchip():varpos(0,0){};
+		Position varpos;
 		int id;
 		int mapchip_color;
 		int resistance;
@@ -54,4 +57,7 @@ private:
 
 	vector<MapchipStatus> mapchipStatus;
 	static Mapchip mapchip[100][100];	//予め100x100のメモリを確保
+
+public:
+	static Position pos(int x, int y){ return mapchip[x][y].varpos; }
 };

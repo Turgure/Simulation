@@ -21,7 +21,7 @@ void Enemy::update(){
 }
 
 void Enemy::draw(){
-	Event::DrawGraphOnMap(varpos.getXByMap(), varpos.getYByMap(), status.image, true);
+	Event::DrawGraphOnMap(varpos.getXByMap(), varpos.getYByMap(), status.image);
 	//show id
 	DrawFormatString(varpos.getXByPx(), varpos.getYByPx(), GetColor(255,255,255), "%d", status.id);
 

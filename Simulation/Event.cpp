@@ -3,25 +3,27 @@
 #include "Stage.h"
 #include "MapchipDefinition.h"
 
-int Event::dist[4][2] = {
-	{-1,  0},
-	{ 1,  0},
-	{ 0, -1},
-	{ 0,  1}
+int Event::dist[8][2] = {
+	{-1,  0},	//left
+	{ 1,  0},	//right
+	{ 0, -1},	//up
+	{ 0,  1},	//bottom
+	{-1, -1},	//leftup
+	{ 1, -1},	//rigthup
+	{-1,  1},	//leftbottom
+	{ 1,  1}	//rightbottom
 };
-int Event::color = GetColor(102,255,255);
+int Event::color_move = GetColor(102,255,255);
+int Event::color_attack = GetColor(255,102,255);
+int Event::color_support = GetColor(102,255,102);
 
-void Event::DrawGraphOnMap(int x, int y, int image, bool FillFlag){
+void Event::DrawGraphOnMap(int x, int y, int image){
 	//DrawGraph(leftupPositionX + x*mapsize, leftupPositionY + y*mapsize, image, true);
-	DrawBox(Stage::getLeftupPositionX() + x*mapsize, Stage::getLeftupPositionY() + y*mapsize,
-		Stage::getLeftupPositionX() + (x+1)*mapsize, Stage::getLeftupPositionY() + (y+1)*mapsize, image, FillFlag);
+	DrawBox(Stage::getLeftupPositionX() + x*mapsize +5, Stage::getLeftupPositionY() + y*mapsize +5,
+		Stage::getLeftupPositionX() + (x+1)*mapsize -5, Stage::getLeftupPositionY() + (y+1)*mapsize -5, image, true);
 }
 
-void Event::point(int x, int y){
-	DrawGraphOnMap(x, y, color, true);
-}
-
-void Event::spotReachTo(int x, int y, int n){
+void Event::spotReachTo(int x, int y, int color, int n){
 	for(int m = 0; m < n; m++){
 		if(Stage::canMove(x-n+m, y-m)){
 			Stage::setBrightPoints(x-n+m, y-m, color);
@@ -38,31 +40,31 @@ void Event::spotReachTo(int x, int y, int n){
 	}
 }
 
-void Event::spotReachTo(int x, int y, int min_range, int max_range){
+void Event::spotReachTo(int x, int y, int color, int min_range, int max_range){
 	for(int i = min_range; i <= max_range; i++){
-		spotReachTo(x, y, i);
+		spotReachTo(x, y, color, i);
 	}
 }
 
-void Event::spotAround(int x, int y){
+void Event::spotAround(int x, int y, int color){
+	spotReachTo(x, y, color, 1);
 	for(int i = 0; i < 4; ++i){
-		point(x + dist[i][0], y + dist[i][1]);
+		if(Stage::canMove(x + dist[i+4][0], y + dist[i+4][1])){
+			Stage::setBrightPoints(x + dist[i+4][0], y + dist[i+4][1], color);
+		}
 	}
 }
 
-void Event::range(int x, int y, int n, bool consider_resistance){
+void Event::range(int x, int y, int color, int n, bool consider_resistance){
 	if(n <= 0) return;
-	int rest[4] = {
-		n - Stage::getResistance(x + dist[0][0], y + dist[0][1]),
-		n - Stage::getResistance(x + dist[1][0], y + dist[1][1]),
-		n - Stage::getResistance(x + dist[2][0], y + dist[2][1]),
-		n - Stage::getResistance(x + dist[3][0], y + dist[3][1])
-	};
-
+	
+	int rest[4];
 	for(int i = 0; i < 4; ++i){
+		rest[i] = n - Stage::getResistance(x + dist[i][0], y + dist[i][1]);
+
 		if(Stage::canMove(x + dist[i][0], y + dist[i][1]) && rest[i] >= 0){
 			Stage::setBrightPoints(x + dist[i][0], y + dist[i][1], color);
-			range(x + dist[i][0], y + dist[i][1], rest[i], consider_resistance);
+			range(x + dist[i][0], y + dist[i][1], color, rest[i], consider_resistance);
 		}
 	}
 }
@@ -71,10 +73,10 @@ void Event::range(int x, int y, int n, bool consider_resistance){
 //	for(int i = 0; i < 9; i++) {
 //		if(x == 100 + i*32)
 //			for(int j = -1; j < 8; j++)
-//				point(x -i+j, y, -i+j+1, 0);
+//				Stage::setBrightPoints(x -i+j, y, -i+j+1, 0);
 //		if(y == 100 + i*32)
 //			for(int j = -1; j < 8; j++)
-//				point(x, y -i+j, 0, -i+j+1);
+//				Stage::setBrightPoints(x, y -i+j, 0, -i+j+1);
 //	}
 //}
 //
@@ -85,7 +87,7 @@ void Event::range(int x, int y, int n, bool consider_resistance){
 //	for(int sleftline = n; sleftline > 0; sleftline--){
 //		int judge = (x-100)/32 - sleftline;
 //		if( judge >= 0){		//左から0列目以上
-//			point(100, y, judge, 0);
+//			Stage::setBrightPoints(100, y, judge, 0);
 //			//	break;
 //		}
 //	}
@@ -96,7 +98,7 @@ void Event::range(int x, int y, int n, bool consider_resistance){
 //	for(int supline = n; supline > 0; supline--){
 //		int judge = (y-100)/32 - supline;
 //		if( judge >= 0){		//上から0列目以上
-//			point(x, 100, 0, judge);
+//			Stage::setBrightPoints(x, 100, 0, judge);
 //			//	break;
 //		}
 //	}
@@ -105,7 +107,7 @@ void Event::range(int x, int y, int n, bool consider_resistance){
 //	for(int srightline = 1; srightline <= n; srightline++){
 //		int judge = (x-100)/32 + srightline;
 //		if( judge <= 8){		//	左から8列目以下
-//			point(100, y, judge, 0);
+//			Stage::setBrightPoints(100, y, judge, 0);
 //			//	break;
 //		}
 //	}
@@ -114,7 +116,7 @@ void Event::range(int x, int y, int n, bool consider_resistance){
 //	for(int sunderline = 1; sunderline <= n; sunderline++){
 //		int judge = (y-100)/32 + sunderline;
 //		if( judge <= 8){		//	下から8列目以下
-//			point(x, 100, 0, judge);
+//			Stage::setBrightPoints(x, 100, 0, judge);
 //			//	break;
 //		}
 //	}

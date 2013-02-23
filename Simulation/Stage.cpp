@@ -22,7 +22,7 @@ void Stage::initialize(){
 }
 
 void Stage::initID(){
-    //i => kind of id
+	//i => kind of id
 	for(int i = 0; i < 5; i++)
 		mapchipStatus.push_back( MapchipStatus(i) );
 
@@ -38,10 +38,10 @@ void Stage::initID(){
 			chip.resistance = 1;
 			break;
 
-        case 2://沼地的な
-            chip.mapchip_color = GetColor(128, 0, 128);
-            chip.resistance = 2;
-            break;
+		case 2://沼地的な
+			chip.mapchip_color = GetColor(128, 0, 128);
+			chip.resistance = 2;
+			break;
 
 		default:
 			break;
@@ -58,9 +58,10 @@ void Stage::initMap(){
 	fscanf(fp, "%d, %d", &width, &height);	
 	int h = 0, w = 0;
 	while((ret = fscanf(fp, "%d, ", &mapid)) != EOF){
+		mapchip[h][w].varpos.setXYByMap(w, h);
 		mapchip[h][w].id = mapid;
 		++w;
-		if(w >= width){
+		if(w > width-1){
 			++h;
 			w = 0;
 		}
@@ -70,7 +71,7 @@ void Stage::initMap(){
 	for(int h = 0; h < height; h++){
 		for(int w = 0; w < width; w++){
 			mapchip[h][w].can_move_object = false;
-		
+
 			for(auto& chip : mapchipStatus){
 				if(mapchip[h][w].id == chip.id){
 					mapchip[h][w].mapchip_color = chip.mapchip_color;
@@ -109,7 +110,8 @@ void Stage::draw(){
 void Stage::drawMap(){
 	for(int h = 0; h < height; h++){
 		for(int w = 0; w < width; w++){
-			Event::DrawGraphOnMap(w, h, mapchip[h][w].mapchip_color, false);
+			DrawBox(mapchip[h][w].varpos.getXByPx(), mapchip[h][w].varpos.getYByPx(),
+				mapchip[h][w].varpos.getXByPx() + mapsize, mapchip[h][w].varpos.getYByPx() + mapsize, mapchip[h][w].mapchip_color, false);
 		}
 	}
 }
@@ -118,7 +120,10 @@ void Stage::drawBrightPoints(){
 	for(int h = 0; h < height; h++){
 		for(int w = 0; w < width; w++){
 			if(mapchip[h][w].can_move_object){
-				Event::DrawGraphOnMap(w, h, mapchip[h][w].bright_color, true);
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 192);
+				DrawBox(mapchip[h][w].varpos.getXByPx(), mapchip[h][w].varpos.getYByPx(),
+					mapchip[h][w].varpos.getXByPx() + mapsize, mapchip[h][w].varpos.getYByPx() + mapsize, mapchip[h][w].bright_color, true);
+				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
 		}
 	}
