@@ -41,7 +41,7 @@ void Player::draw(){
 		Event::range(varpos.getXByMap(), varpos.getYByMap(), Event::GetColorMove(), 5, true);
 		break;
 	case ACTION:
-		Event::spotReachTo(varpos.getXByMap(), varpos.getYByMap(), Event::GetColorAttack(), 1, 3);
+		Event::aroundTo(varpos.getXByMap(), varpos.getYByMap(), Event::GetColorAttack(), 3);
 		break;
 	}
 }
