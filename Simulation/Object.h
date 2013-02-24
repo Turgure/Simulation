@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include <fstream>
+#include <string>
 #include <vector>
 #include "Position.h"
 #include "MapchipDefinition.h"
@@ -42,19 +44,8 @@ class Enemy;
 //生成等を行う
 class ObjectManager{
 public:
-	static void create(vector<Player> &players, const char* file, int x, int y);
-	static void create(vector<Enemy> &enemies, const char* file, int x, int y);
-
-private:
-	static int id;
-	static int hp;
-	static int mp;
-	static int str;
-	static int def;
-	static int agi;
-	
-	static FILE* fp;
-	static int ret;
+	static void create(vector<Player> &players, string filename, int x, int y);
+	static void create(vector<Enemy> &enemies, string filename);
 };
 
 //プレイヤークラス

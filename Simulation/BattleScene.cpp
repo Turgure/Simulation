@@ -15,15 +15,7 @@ void BattleScene::initialize(){
 	ObjectManager::create(players, "data/chara/player1.csv", 4, 3);
 	ObjectManager::create(players, "data/chara/player2.csv", 5, 3);
 
-	for(int i = 0; i < 5; i++){
-		int x, y;
-		do{
-			x = GetRand(9);
-			y = GetRand(9);
-		}while(!stage.canMove(x, y));
-
-		enemies.push_back( Enemy(x, y, enemies.size(), 3, 3, 3, 3, 3) );
-	}
+	ObjectManager::create(enemies, "data/stage/stage2/enemy.csv");
 }
 
 void BattleScene::update(){

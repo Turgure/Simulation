@@ -1,6 +1,7 @@
 ﻿#include <stdio.h>
 #include <DxLib.h>
 #include "Stage.h"
+#include "FileStream.h"
 #include "MapchipDefinition.h"
 #include "Event.h"
 #include "Cursor.h"
@@ -50,26 +51,24 @@ void Stage::initID(){
 }
 
 void Stage::initMap(){
-	if((fp = fopen("data/stage/stage2/map.csv", "r")) == NULL){
-		printfDx("mapdata load error.");
-		return;
-	}
-
-	fscanf(fp, "%d, %d", &width, &height);	
-	int h = 0, w = 0;
-	while((ret = fscanf(fp, "%d, ", &mapid)) != EOF){
-		mapchip[h][w].varpos.setXYByMap(w, h);
-		mapchip[h][w].id = mapid;
-		++w;
-		if(w > width-1){
-			++h;
-			w = 0;
+	vector<vector<string>> mapid;
+	FileStream::load("data/stage/stage2/map.csv", mapid);
+	
+	//idの読み込み
+	for(unsigned int h = 0; h < mapid.size(); ++h){
+		for(unsigned int w = 0; w < mapid[h].size(); ++w){
+			if(h == 0){
+				width = atoi(mapid[h][0].c_str());
+				height = atoi(mapid[h][1].c_str());
+				break;
+			}
+			mapchip[h-1][w].id = atoi(mapid[h][w].c_str());
 		}
 	}
-	fclose(fp);
 
 	for(int h = 0; h < height; h++){
 		for(int w = 0; w < width; w++){
+			mapchip[h][w].varpos.setXYByMap(w, h);
 			mapchip[h][w].can_move_object = false;
 
 			for(auto& chip : mapchipStatus){

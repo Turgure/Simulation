@@ -1,5 +1,7 @@
 #include <DxLib.h>
 #include "Object.h"
+#include "FileStream.h"
+#include "Stage.h"
 
 bool BaseObject::isMyTurn(){
 	if(ATBgauge <= 0){
@@ -19,31 +21,35 @@ void BaseObject::showStatus(Status st){
 }
 
 
-int ObjectManager::id;
-int ObjectManager::hp;
-int ObjectManager::mp;
-int ObjectManager::str;
-int ObjectManager::def;
-int ObjectManager::agi;
-FILE* ObjectManager::fp;
-int ObjectManager::ret;
+void ObjectManager::create(vector<Player> &players, string filename, int x, int y){
+	vector<string> status;
+	FileStream::load(filename, status);
 
-void ObjectManager::create(vector<Player> &players, const char* file, int x, int y){
-	fp = fopen(file, "r");
-	if(fp != NULL){
-		if((ret = fscanf(fp, "%d, %d, %d, %d, %d, %d", &id, &hp, &mp, &str, &def, &agi)) != EOF){
-			players.push_back( Player(x, y, id, hp, mp, str, def, agi) );
-		}
+	//intŒ^‚É•ÏŠ·
+	vector<int> d;
+	for(auto& s : status){
+		d.push_back(atoi(s.c_str()));
 	}
-	fclose(fp);
+	players.push_back( Player(x, y, d[0], d[1], d[2], d[3], d[4], d[5]) );
 }
 
-void ObjectManager::create(vector<Enemy> &enemies, const char* file, int x, int y){
-	fp = fopen(file, "r");
-	if(fp != NULL){
-		if((ret = fscanf(fp, "%d, %d, %d, %d, %d, %d", &id, &hp, &mp, &str, &def, &agi)) != EOF){
-			enemies.push_back( Enemy(x, y, id, hp, mp, str, def, agi) );
+void ObjectManager::create(vector<Enemy> &enemies, string filename){
+	vector<vector<string>> status;
+	FileStream::load(filename, status);
+	
+	int x, y;
+
+	//intŒ^‚É•ÏŠ·
+	int d[256][256];
+	for(unsigned int i = 0; i < status.size(); ++i){
+		for(unsigned int j = 0; j < status[i].size(); ++j){
+			d[i][j] = atoi(status[i][j].c_str());
 		}
+
+		do{
+			x = GetRand(9);
+			y = GetRand(9);
+		}while(!Stage::canMove(x, y));
+		enemies.push_back( Enemy(x, y, d[i][0], d[i][1], d[i][2], d[i][3], d[i][4], d[i][5]) );
 	}
-	fclose(fp);
 }

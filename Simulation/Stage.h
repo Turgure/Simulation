@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include <fstream>
+#include <string>
 #include <vector>
 #include "Position.h"
 using namespace std;
@@ -33,10 +35,6 @@ private:
 	static int height;
 	static int leftup_positionX;
 	static int leftup_positionY;
-
-	FILE* fp;
-	int ret;
-	int mapid;
 
 	struct MapchipStatus{
 		MapchipStatus(int id){ this-> id = id; }
