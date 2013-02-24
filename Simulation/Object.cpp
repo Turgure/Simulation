@@ -18,6 +18,7 @@ void BaseObject::showStatus(Status st){
 	DrawFormatString(200, 48, GetColor(255,255,255), "str %d", st.str);
 	DrawFormatString(200, 64, GetColor(255,255,255), "def %d", st.def);
 	DrawFormatString(200, 80, GetColor(255,255,255), "agi %d", st.agi);
+	DrawFormatString(200, 94, GetColor(255,255,255), "mob %d", st.mobility);
 }
 
 
@@ -30,7 +31,7 @@ void ObjectManager::create(vector<Player> &players, string filename, int x, int 
 	for(auto& s : status){
 		d.push_back(atoi(s.c_str()));
 	}
-	players.push_back( Player(x, y, d[0], d[1], d[2], d[3], d[4], d[5]) );
+	players.push_back( Player(x, y, d[0], d[1], d[2], d[3], d[4], d[5], d[6]) );
 }
 
 void ObjectManager::create(vector<Enemy> &enemies, string filename){
@@ -50,6 +51,6 @@ void ObjectManager::create(vector<Enemy> &enemies, string filename){
 			x = GetRand(9);
 			y = GetRand(9);
 		}while(!Stage::canMove(x, y));
-		enemies.push_back( Enemy(x, y, d[i][0], d[i][1], d[i][2], d[i][3], d[i][4], d[i][5]) );
+		enemies.push_back( Enemy(x, y, d[i][0], d[i][1], d[i][2], d[i][3], d[i][4], d[i][5], d[i][6]) );
 	}
 }

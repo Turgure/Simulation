@@ -13,10 +13,12 @@ int Position::getXByPx() const { return Stage::getLeftupPositionX()+ x*mapsize; 
 int Position::getYByPx() const { return Stage::getLeftupPositionY()+ y*mapsize; }
 
 void Position::setXYByPx(int toX, int toY){
-	x = Stage::getLeftupPositionX()+ toX*mapsize, y = Stage::getLeftupPositionY()+ toY*mapsize;
+	x = Stage::getLeftupPositionX()+ toX*mapsize;
+	y = Stage::getLeftupPositionY()+ toY*mapsize;
 }
 void Position::MoveByPx(int diffX, int diffY){
-	x += Stage::getLeftupPositionX()+ diffX*mapsize, y += Stage::getLeftupPositionY()+ diffY*mapsize;
+	x += Stage::getLeftupPositionX()+ diffX*mapsize;
+	y += Stage::getLeftupPositionY()+ diffY*mapsize;
 }
 
 void Position::setXByMap(int toX){ x = toX; }

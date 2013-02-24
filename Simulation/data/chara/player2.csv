@@ -1,2 +1,2 @@
-//id, hp, mp, str, def, agi
-1, 10, 10, 5, 4, 2
+//id, hp, mp, str, def, agi, mobility
+1, 10, 10, 5, 4, 2, 6

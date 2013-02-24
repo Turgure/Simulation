@@ -10,7 +10,7 @@ public:
 	int getYByPx() const;
 	void setXYByPx(int toX, int toY);
 	void MoveByPx(int diffX, int diffY);
-
+	
 	void setXByMap(int toX);
 	void setYByMap(int toY);
 	int getXByMap() const;

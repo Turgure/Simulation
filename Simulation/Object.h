@@ -31,11 +31,14 @@ protected:
 		int str;
 		int def;
 		int agi;
+		int mobility;
 	}Status;
+	void showStatus(Status st);
+	
+	enum State{SELECT, MOVE, ACTION, END, WAIT} state;
+	int ATBgauge;
 	bool can_move;
 	bool can_act;
-	int ATBgauge;
-	void showStatus(Status st);
 };
 
 class Player;
@@ -51,7 +54,7 @@ public:
 //プレイヤークラス
 class Player : public BaseObject{
 public:
-	Player(int x, int y, int id, int hp, int mp, int str, int def, int agi);
+	Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility);
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void doAction() override;
@@ -65,7 +68,6 @@ public:
 	Position pos(){ return varpos; }
 
 private:
-	enum State{SELECT, MOVE, ACTION, END} state;
 	Status status;
 
 	Position varpos;
@@ -75,13 +77,14 @@ private:
 //エネミークラス
 class Enemy : public BaseObject{
 public:
-	Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi);
+	Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility);
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void doAction() override;
 	virtual void EndMyTurn() override;
 
 	bool isCntOver();
+	State getState(){ return state; }
 
 	void setHP(int hp){ status.hp = hp; }
 	int getHP() const { return status.hp; }

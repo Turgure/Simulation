@@ -8,6 +8,7 @@
 Position Cursor::varpos(0,0);
 
 Cursor::Cursor(int x, int y){
+	varpos.setXYByMap(x, y);
 	image = GetColor(0, 255, 0);
 }
 
@@ -33,4 +34,8 @@ void Cursor::draw(){
 	DrawBox(varpos.getXByPx(), varpos.getYByPx(),
 		varpos.getXByPx() + mapsize, varpos.getYByPx() + mapsize, image, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+}
+
+void Cursor::set(int x, int y){
+	varpos.setXYByMap(x, y);
 }

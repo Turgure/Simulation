@@ -23,21 +23,34 @@ void BattleScene::update(){
 	stage.update();
 	cursor.update();
 
-	for(auto& player : players){
-		//check
-		if(player.isMyTurn())
-			has_come_turn = true;
-		//sub ATBgauge
-		if(!has_come_turn)
+	//calculate
+	while(!has_come_turn){
+		for(auto& player : players){
+			//sub ATBgauge
 			player.update();
-	}
-	for(auto& enemy : enemies){
-		//check
-		if(enemy.isMyTurn())
-			has_come_turn = true;
-		//sub ATBgauge
-		if(!has_come_turn)
+
+			//check
+			if(player.isMyTurn()){
+				has_come_turn = true;
+				cursor.set(player.pos().getXByMap(), player.pos().getYByMap());
+				break;
+			}
+		}
+		//敵との重複を避ける
+		if(has_come_turn) break;
+
+		for(auto& enemy : enemies){
+			//sub ATBgauge
 			enemy.update();
+
+			//check
+			if(enemy.isMyTurn()){
+				has_come_turn = true;
+				cursor.set(enemy.pos().getXByMap(), enemy.pos().getYByMap());
+				break;
+			}
+		}
+		break;
 	}
 
 	//do action
@@ -56,13 +69,14 @@ void BattleScene::update(){
 			}
 			break;
 		}
+		//敵との重複を避ける
 		if(act_only_one) break;
 
 		for(auto& enemy : enemies){
 			if(!enemy.isMyTurn()) continue;
 
 			enemy.doAction();
-			if(enemy.isCntOver()){
+			if(enemy.getState() == 3){
 				enemy.EndMyTurn();
 				has_come_turn = false;
 			}

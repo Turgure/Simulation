@@ -5,7 +5,7 @@
 #include "Event.h"
 #include "Stage.h"
 
-Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi):varpos(x, y){
+Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility):varpos(x, y){
 	status.image = GetColor(0, 0, 255);
 	status.id = id;
 	status.maxhp = hp, status.hp = status.maxhp;
@@ -13,6 +13,7 @@ Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi):
 	status.str = str;
 	status.def = def;
 	status.agi = agi;
+	status.mobility = mobility;
 	state = SELECT;
 	ATBgauge = 100;
 	can_move = true;
@@ -38,7 +39,7 @@ void Player::draw(){
 	case SELECT:
 		break;
 	case MOVE:
-		Event::range(varpos.getXByMap(), varpos.getYByMap(), Event::GetColorMove(), 5, true);
+		Event::range(varpos.getXByMap(), varpos.getYByMap(), Event::GetColorMove(), status.mobility, true);
 		break;
 	case ACTION:
 		Event::aroundTo(varpos.getXByMap(), varpos.getYByMap(), Event::GetColorAttack(), 3);
