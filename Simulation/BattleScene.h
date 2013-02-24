@@ -16,7 +16,8 @@ public:
 
 private:
 	int turn;
-	bool isMoving;
+	bool has_come_turn;
+	bool act_only_one;
 
 	Stage stage;
 	Cursor cursor;

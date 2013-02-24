@@ -41,5 +41,5 @@ void Enemy::EndMyTurn(){
 }
 
 bool Enemy::isCntOver(){
-	return (cnt >= 20000);
+	return (cnt >= 30);
 }

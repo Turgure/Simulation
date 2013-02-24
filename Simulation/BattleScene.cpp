@@ -5,7 +5,8 @@
 #include "Cursor.h"
 
 BattleScene::BattleScene():cursor(5, 5){
-	isMoving = false;
+	has_come_turn = false;
+	act_only_one = false;
 }
 
 void BattleScene::initialize(){
@@ -20,52 +21,55 @@ void BattleScene::initialize(){
 
 void BattleScene::update(){
 	stage.update();
+	cursor.update();
 
 	for(auto& player : players){
 		//check
 		if(player.isMyTurn())
-			isMoving = true;
+			has_come_turn = true;
 		//sub ATBgauge
-		if(!isMoving)
+		if(!has_come_turn)
 			player.update();
 	}
 	for(auto& enemy : enemies){
 		//check
 		if(enemy.isMyTurn())
-			isMoving = true;
+			has_come_turn = true;
 		//sub ATBgauge
-		if(!isMoving)
+		if(!has_come_turn)
 			enemy.update();
 	}
 
 	//do action
-	if(isMoving){
+	while(has_come_turn){
 		for(auto& player : players){
-			if(player.isMyTurn()){
-				player.doAction();
-				player.attack(enemies);
-				if(Keyboard::get(KEY_INPUT_9) == 1){
-					player.EndMyTurn();
-					player.react();
-					isMoving = false;
-				}
+			if(!player.isMyTurn()) continue;
+			act_only_one = true;
+
+			player.doAction();
+			player.attack(enemies);
+			if(Keyboard::get(KEY_INPUT_9) == 1){
+				player.EndMyTurn();
+				player.react();
+				has_come_turn = false;
+				act_only_one = false;
 			}
+			break;
 		}
+		if(act_only_one) break;
 
 		for(auto& enemy : enemies){
-			if(enemy.isMyTurn()){
-				while(!enemy.isCntOver()){
-					enemy.doAction();
-				}
+			if(!enemy.isMyTurn()) continue;
+
+			enemy.doAction();
+			if(enemy.isCntOver()){
 				enemy.EndMyTurn();
-				isMoving = false;
-				break;
+				has_come_turn = false;
 			}
+			break;
 		}
-
-		cursor.update();
+		break;
 	}
-
 
 	//++turn;
 
@@ -88,9 +92,10 @@ void BattleScene::update(){
 void BattleScene::draw(){
 	DrawFormatString(0, 0, GetColor(255,255,255), "turn : %d", turn);
 	DrawString(0, 16, "turn end : key 9", GetColor(255,255,255));
-	if(!isMoving) DrawString(0, 32, "waiting...", GetColor(255,255,255));
+	if(!has_come_turn) DrawString(0, 32, "waiting...", GetColor(255,255,255));
 
 	stage.draw();
+	cursor.draw();
 
 	for(auto& player : players){
 		player.draw();
@@ -98,6 +103,4 @@ void BattleScene::draw(){
 	for(auto& enemy : enemies){
 		enemy.draw();
 	}
-
-	cursor.draw();
 }
