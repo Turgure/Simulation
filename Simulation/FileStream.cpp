@@ -1,4 +1,4 @@
-#include <fstream>
+ï»¿#include <fstream>
 #include <DxLib.h>
 #include "FileStream.h"
 
@@ -17,13 +17,13 @@ void FileStream::load(string filename, vector<string>& data){
 	
 	i = 0;
 	while(getline(file, str)){
-	    //ƒRƒƒ“ƒg‰ÓŠ‚Íœ‚­
+	    //ã‚³ãƒ¡ãƒ³ãƒˆç®‡æ‰€ã¯é™¤ã
 	    if((p = str.find("//")) != str.npos) continue;
-	    //ƒRƒ“ƒ}‚ª‚ ‚é‚©‚ğ’T‚µA‚»‚±‚Ü‚Å‚ğvalues‚ÉŠi”[
+	    //ã‚³ãƒ³ãƒãŒã‚ã‚‹ã‹ã‚’æ¢ã—ã€ãã“ã¾ã§ã‚’valuesã«æ ¼ç´
 	    for(j = 0; (p = str.find(",")) != str.npos; ++j){
 	        data.push_back(str.substr(0, p));
 	
-	        //str‚Ì’†g‚Í", "‚Ì2•¶š‚ğ”ò‚Î‚·
+	        //strã®ä¸­èº«ã¯", "ã®2æ–‡å­—ã‚’é£›ã°ã™
 	        str = str.substr(p+2);
 	    }
 	    data.push_back(str);
@@ -41,15 +41,15 @@ void FileStream::load(string filename, vector<vector<string>>& data){
 	
 	i = 0;
 	while(getline(file, str)){
-	    //ƒRƒƒ“ƒg‰ÓŠ‚Íœ‚­
+	    //ã‚³ãƒ¡ãƒ³ãƒˆç®‡æ‰€ã¯é™¤ã
 	    if((p = str.find("//")) != str.npos) continue;
 	    vector<string> inner;
 	
-	    //ƒRƒ“ƒ}‚ª‚ ‚é‚©‚ğ’T‚µA‚»‚±‚Ü‚Å‚ğvalues‚ÉŠi”[
+	    //ã‚³ãƒ³ãƒãŒã‚ã‚‹ã‹ã‚’æ¢ã—ã€ãã“ã¾ã§ã‚’valuesã«æ ¼ç´
 	    for(j = 0; (p = str.find(",")) != str.npos; ++j){
 	        inner.push_back(str.substr(0, p));
 	
-	        //str‚Ì’†g‚Í", "‚Ì2•¶š‚ğ”ò‚Î‚·
+	        //strã®ä¸­èº«ã¯", "ã®2æ–‡å­—ã‚’é£›ã°ã™
 	        str = str.substr(p+2);
 	    }
 	    inner.push_back(str);
