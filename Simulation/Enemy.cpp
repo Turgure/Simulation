@@ -43,7 +43,7 @@ void Enemy::doAction(){
 		break;
 
 	case MOVE:
-		Event::range(varpos.getXByMap(), varpos.getYByMap(), Event::GetColorMove(), status.mobility, true);
+		Event::range(varpos.getXByMap(), varpos.getYByMap(), status.mobility, true);
 
 		int x, y;
 		do{

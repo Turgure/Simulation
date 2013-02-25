@@ -3,7 +3,7 @@
 #include "Stage.h"
 #include "MapchipDefinition.h"
 
-int Event::dist[8][2] = {
+int Event::dir[8][2] = {
 	{ 0, -1},	//up
 	{ 1, -1},	//rigthup
 	{ 1,  0},	//right
@@ -23,22 +23,22 @@ void Event::DrawGraphOnMap(int x, int y, int image){
 		Stage::getLeftupPositionX() + (x+1)*mapsize -5, Stage::getLeftupPositionY() + (y+1)*mapsize -5, image, true);
 }
 
-void Event::range(int x, int y, int color, int n, bool consider_resistance){
+void Event::range(int x, int y, int n, bool consider_resistance){
 	if(n <= 0) return;
 
 	int rest[4];
 	for(int i = 0; i < 4; ++i){
-		rest[i] = consider_resistance ? n - Stage::getResistance(x + dist[i*2][0], y + dist[i*2][1]) : n - 1;
+		rest[i] = consider_resistance ? n - Stage::getResistance(x + dir[i*2][0], y + dir[i*2][1]) : n - 1;
 
-		if(Stage::canMove(x + dist[i*2][0], y + dist[i*2][1]) && rest[i] >= 0){
-			Stage::setBrightPoints(x + dist[i*2][0], y + dist[i*2][1], color);
-			range(x + dist[i*2][0], y + dist[i*2][1], color, rest[i], consider_resistance);
+		if(Stage::canMove(x + dir[i*2][0], y + dir[i*2][1]) && rest[i] >= 0){
+			Stage::setBrightPoints(x + dir[i*2][0], y + dir[i*2][1], color_move);
+			range(x + dir[i*2][0], y + dir[i*2][1], rest[i], consider_resistance);
 		}
 	}
 }
 
-void Event::reachTo(int x, int y, int color, int n){
-	for(int m = 0; m < n; m++){
+void Event::reachAt(int x, int y, int color, int n){
+	for(int m = 0; m < n; ++m){
 		if(Stage::canMove(x-n+m, y-m)){
 			Stage::setBrightPoints(x-n+m, y-m, color);
 		}
@@ -55,15 +55,15 @@ void Event::reachTo(int x, int y, int color, int n){
 }
 
 void Event::reachTo(int x, int y, int color, int min_range, int max_range){
-	for(int i = min_range; i <= max_range; i++){
-		reachTo(x, y, color, i);
+	for(int i = min_range; i <= max_range; ++i){
+		reachAt(x, y, color, i);
 	}
 }
 
 void Event::around8(int x, int y, int color){
 	for(int i = 0; i < 8; ++i){
-		if(Stage::canMove(x + dist[i][0], y + dist[i][1])){
-			Stage::setBrightPoints(x + dist[i][0], y + dist[i][1], color);
+		if(Stage::canMove(x + dir[i][0], y + dir[i][1])){
+			Stage::setBrightPoints(x + dir[i][0], y + dir[i][1], color);
 		}
 	}
 }
@@ -73,14 +73,14 @@ void Event::aroundTo(int x, int y, int color, int n){
 
 	for(int i = 0; i < n; ++i){
 		for(int j = 0; j < 8; ++j){
-			around8(x + dist[j][0]*i, y + dist[j][1]*i, color);
-			aroundTo(x + dist[j][0], y + dist[j][1], color, n-1);
+			around8(x + dir[j][0]*i, y + dir[j][1]*i, color);
+			aroundTo(x + dir[j][0], y + dir[j][1], color, n-1);
 		}
 	}
 
 	//for(int i = 0; i < n; ++i){
 	//	for(int j = 0; j < 8; ++j){
-	//		around8(x + dist[j][0]*i, y + dist[j][1]*i, color);
+	//		around8(x + dir[j][0]*i, y + dir[j][1]*i, color);
 	//	}
 	//}
 }
@@ -90,8 +90,8 @@ void Event::rowFourTo(int x, int y, int color, int n){
 
 	for(int i = 1; i <= n; ++i){
 		for(int j = 0; j < 4; ++j){
-			if(Stage::canMove(x + dist[j*2][0]*i, y + dist[j*2][1]*i)){
-				Stage::setBrightPoints(x + dist[j*2][0]*i, y + dist[j*2][1]*i, color);
+			if(Stage::canMove(x + dir[j*2][0]*i, y + dir[j*2][1]*i)){
+				Stage::setBrightPoints(x + dir[j*2][0]*i, y + dir[j*2][1]*i, color);
 			}
 		}
 	}

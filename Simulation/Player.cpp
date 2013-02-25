@@ -39,7 +39,7 @@ void Player::draw(){
 	case SELECT:
 		break;
 	case MOVE:
-		Event::range(varpos.getXByMap(), varpos.getYByMap(), Event::GetColorMove(), status.mobility, true);
+		Event::range(varpos.getXByMap(), varpos.getYByMap(), status.mobility, true);
 		break;
 	case ACTION:
 		Event::aroundTo(varpos.getXByMap(), varpos.getYByMap(), Event::GetColorAttack(), 3);
