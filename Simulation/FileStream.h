@@ -9,9 +9,4 @@ public:
 	static void load(string filename, vector<vector<string>>& data);
 
 	static void write();
-
-private:
-	static ifstream file;
-	static string str;
-	static int i, j, p;
 };
