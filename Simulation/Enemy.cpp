@@ -34,6 +34,7 @@ void Enemy::draw(){
 
 void Enemy::doAction(){
 	DrawFormatString(0, 80, GetColor(255,255,255), "enemy %d's turn.", status.id);
+	showStatus(status);
 
 	switch(state){
 	case SELECT:

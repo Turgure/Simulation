@@ -48,8 +48,8 @@ void ObjectManager::create(vector<Enemy> &enemies, string filename){
 		}
 
 		do{
-			x = GetRand(9);
-			y = GetRand(9);
+			x = GetRand(Stage::getWidth());
+			y = GetRand(Stage::getHeight());
 		}while(!Stage::canMove(x, y));
 		enemies.push_back( Enemy(x, y, d[i][0], d[i][1], d[i][2], d[i][3], d[i][4], d[i][5], d[i][6]) );
 	}

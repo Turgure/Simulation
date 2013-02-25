@@ -4,7 +4,7 @@
 #include "Keyboard.h"
 #include "Cursor.h"
 
-BattleScene::BattleScene():cursor(5, 5){
+BattleScene::BattleScene():cursor(0, 0){
 	has_come_turn = false;
 	act_only_one = false;
 }
@@ -13,8 +13,8 @@ void BattleScene::initialize(){
 	turn = 1;
 	stage.initialize();
 
-	ObjectManager::create(players, "data/chara/player1.csv", 4, 3);
-	ObjectManager::create(players, "data/chara/player2.csv", 5, 3);
+	ObjectManager::create(players, "data/chara/player1.csv", 3, 7);
+	ObjectManager::create(players, "data/chara/player2.csv", 6, 7);
 
 	ObjectManager::create(enemies, "data/stage/stage2/enemy.csv");
 }
