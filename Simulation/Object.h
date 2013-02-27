@@ -39,6 +39,10 @@ protected:
 	int ATBgauge;
 	bool can_move;
 	bool can_act;
+
+public:
+	//1=>SELECT, 2=>MOVE, 3=>END, 4=>WAIT
+	State getState() const { return state; }
 };
 
 class Player;
@@ -84,7 +88,6 @@ public:
 	virtual void EndMyTurn() override;
 
 	bool isCntOver();
-	State getState(){ return state; }
 
 	void setHP(int hp){ status.hp = hp; }
 	int getHP() const { return status.hp; }
@@ -101,7 +104,6 @@ public:
 
 private:
 	int cnt;
-
 	Status status;
 
 	Position varpos;

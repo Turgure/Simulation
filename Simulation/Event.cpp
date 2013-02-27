@@ -31,7 +31,7 @@ void Event::range(int x, int y, int n, bool consider_resistance){
 		rest[i] = consider_resistance ? n - Stage::getResistance(x + dir[i*2][0], y + dir[i*2][1]) : n - 1;
 
 		if(Stage::canMove(x + dir[i*2][0], y + dir[i*2][1]) && rest[i] >= 0){
-			Stage::setBrightPoints(x + dir[i*2][0], y + dir[i*2][1], color_move);
+			Stage::setBrightPoint(x + dir[i*2][0], y + dir[i*2][1], color_move);
 			range(x + dir[i*2][0], y + dir[i*2][1], rest[i], consider_resistance);
 		}
 	}
@@ -40,16 +40,16 @@ void Event::range(int x, int y, int n, bool consider_resistance){
 void Event::reachAt(int x, int y, int color, int n){
 	for(int m = 0; m < n; ++m){
 		if(Stage::canMove(x-n+m, y-m)){
-			Stage::setBrightPoints(x-n+m, y-m, color);
+			Stage::setBrightPoint(x-n+m, y-m, color);
 		}
 		if(Stage::canMove(x+m, y-n+m)){
-			Stage::setBrightPoints(x+m, y-n+m, color);
+			Stage::setBrightPoint(x+m, y-n+m, color);
 		}
 		if(Stage::canMove(x+n-m, y+m)){
-			Stage::setBrightPoints(x+n-m, y+m, color);
+			Stage::setBrightPoint(x+n-m, y+m, color);
 		}
 		if(Stage::canMove(x-m, y+n-m)){
-			Stage::setBrightPoints(x-m, y+n-m, color);
+			Stage::setBrightPoint(x-m, y+n-m, color);
 		}
 	}
 }
@@ -63,7 +63,7 @@ void Event::reachTo(int x, int y, int color, int min_range, int max_range){
 void Event::around8(int x, int y, int color){
 	for(int i = 0; i < 8; ++i){
 		if(Stage::canMove(x + dir[i][0], y + dir[i][1])){
-			Stage::setBrightPoints(x + dir[i][0], y + dir[i][1], color);
+			Stage::setBrightPoint(x + dir[i][0], y + dir[i][1], color);
 		}
 	}
 }
@@ -91,7 +91,7 @@ void Event::rowFourTo(int x, int y, int color, int n){
 	for(int i = 1; i <= n; ++i){
 		for(int j = 0; j < 4; ++j){
 			if(Stage::canMove(x + dir[j*2][0]*i, y + dir[j*2][1]*i)){
-				Stage::setBrightPoints(x + dir[j*2][0]*i, y + dir[j*2][1]*i, color);
+				Stage::setBrightPoint(x + dir[j*2][0]*i, y + dir[j*2][1]*i, color);
 			}
 		}
 	}

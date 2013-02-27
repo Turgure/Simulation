@@ -64,7 +64,7 @@ void Player::doAction(){
 		if(Keyboard::get(KEY_INPUT_3) == 1) state = SELECT;
 		if(Keyboard::get(KEY_INPUT_1) == 1){
 			state = SELECT;
-			if(Stage::getBrightPoints(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
+			if(Stage::getBrightPoint(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
 				varpos.setXYByMap(Cursor::pos().getXByMap(), Cursor::pos().getYByMap());
 				can_move = false;
 			}
@@ -138,7 +138,7 @@ void Player::attack(vector<Enemy> &enemies){
 	if(Keyboard::get(KEY_INPUT_1) == 1){
 		state = SELECT;
 		for(auto& enemy : enemies){
-			if(Stage::getBrightPoints(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
+			if(Stage::getBrightPoint(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
 				if(enemy.pos().targetted(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
 					can_act = false;
 

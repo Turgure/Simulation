@@ -128,13 +128,17 @@ void Stage::drawBrightPoints(){
 	}
 }
 
-void Stage::setBrightPoints(int x, int y, int color){
+void Stage::setBrightPoint(int x, int y, int color){
 	mapchip[y][x].can_move_object = true;
 	mapchip[y][x].bright_color = color;
 }
 
-bool Stage::getBrightPoints(int x, int y){
+bool Stage::getBrightPoint(int x, int y){
 	return mapchip[y][x].can_move_object;
+}
+
+void Stage::eraseBrightPoint(int x, int y){
+	mapchip[y][x].can_move_object = false;
 }
 
 void Stage::eraseBrightPoints(){

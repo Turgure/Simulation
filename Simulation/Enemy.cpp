@@ -49,7 +49,7 @@ void Enemy::doAction(){
 		do{
 			x = GetRand(Stage::getWidth());
 			y = GetRand(Stage::getHeight());
-		}while(!Stage::getBrightPoints(x, y));
+		}while(!Stage::getBrightPoint(x, y));
 		
 		Cursor::set(x, y);
 		can_move = false;

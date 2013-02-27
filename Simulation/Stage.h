@@ -17,8 +17,9 @@ public:
 	void drawMap();
 	void drawBrightPoints();
 
-	static void setBrightPoints(int x, int y, int color);
-	static bool getBrightPoints(int x, int y);
+	static void setBrightPoint(int x, int y, int color);
+	static bool getBrightPoint(int x, int y);
+	static void eraseBrightPoint(int x, int y);
 	static void eraseBrightPoints();
 	static bool canMove(int x, int y);
 	static int getResistance(int x, int y);
