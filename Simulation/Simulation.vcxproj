@@ -14,7 +14,7 @@
     <ClInclude Include="Event.h" />
     <ClInclude Include="FileStream.h" />
     <ClInclude Include="HomeScene.h" />
-    <ClInclude Include="MapchipDefinition.h" />
+    <ClInclude Include="GV.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="BattleScene.h" />

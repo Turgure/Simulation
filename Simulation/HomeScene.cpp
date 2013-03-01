@@ -11,5 +11,5 @@ void HomeScene::update(){
 }
 
 void HomeScene::draw(){
-	DrawString(300, 200, "clear", GetColor(255,255,255));
+	DrawString(300, 200, "game over.", GetColor(255,255,255));
 }

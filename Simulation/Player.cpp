@@ -26,7 +26,7 @@ void Player::update(){
 
 void Player::draw(){
 	Event::DrawGraphOnMap(varpos.getXByMap(), varpos.getYByMap(), status.image);
-	//show id
+	//show id on object
 	DrawFormatString(varpos.getXByPx(), varpos.getYByPx(), GetColor(255,255,255), "%d", status.id);
 
 	if(varpos.targetted(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
@@ -36,20 +36,22 @@ void Player::draw(){
 	showCommand();
 
 	switch(state){
-	case SELECT:
-		break;
 	case MOVE:
 		Event::range(varpos.getXByMap(), varpos.getYByMap(), status.mobility, true);
 		break;
 	case ACTION:
 		Event::aroundTo(varpos.getXByMap(), varpos.getYByMap(), Event::GetColorAttack(), 3);
 		break;
+	default:
+		break;
 	}
 }
 
-void Player::doAction(){
-	DrawFormatString(0, 80, GetColor(255,255,255), "player %d's turn.", status.id);
-
+void Player::action(){
+	DrawFormatString(0, 48, GetColor(255,255,255), "player %d's turn.", status.id);
+	
+	if(!can_move && !can_act) state = END;
+	
 	switch(state){
 	case SELECT:
 		Stage::eraseBrightPoints();
@@ -65,7 +67,7 @@ void Player::doAction(){
 		if(Keyboard::get(KEY_INPUT_1) == 1){
 			state = SELECT;
 			if(Stage::getBrightPoint(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
-				varpos.setXYByMap(Cursor::pos().getXByMap(), Cursor::pos().getYByMap());
+				varpos.setByMap(Cursor::pos().getXByMap(), Cursor::pos().getYByMap());
 				can_move = false;
 			}
 		}
@@ -81,17 +83,15 @@ void Player::doAction(){
 		Stage::eraseBrightPoints();
 		break;
 	}
-
-	if(!can_move && !can_act){
-		state = END;
-	}
 }
 
-void Player::EndMyTurn(){
+void Player::endMyTurn(){
 	state = SELECT;
 	ATBgauge += 20;
 	if(!can_move) ATBgauge += 40;
 	if(!can_act) ATBgauge += 60;
+	can_move = true;
+	can_act = true;
 }
 
 void Player::showCommand(){
@@ -124,11 +124,6 @@ void Player::showCommand(){
 			DrawString(400,  0, "end.", GetColor(255,255,255));
 		break;
 	}
-}
-
-void Player::react(){
-	can_move = true;
-	can_act = true;
 }
 
 void Player::attack(vector<Enemy> &enemies){

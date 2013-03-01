@@ -1,7 +1,7 @@
 ﻿#include <DxLib.h>
 #include "Event.h"
+#include "GV.h"
 #include "Stage.h"
-#include "MapchipDefinition.h"
 
 int Event::dir[8][2] = {
 	{ 0, -1},	//up

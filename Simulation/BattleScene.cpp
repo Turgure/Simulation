@@ -1,4 +1,5 @@
-﻿#include <DxLib.h>
+﻿#include <math.h>
+#include <DxLib.h>
 #include "BattleScene.h"
 #include "HomeScene.h"
 #include "Keyboard.h"
@@ -53,17 +54,16 @@ void BattleScene::update(){
 		break;
 	}
 
-	//do action
+	//action
 	while(has_come_turn){
 		for(auto& player : players){
 			if(!player.isMyTurn()) continue;
 			act_only_one = true;
 
-			player.doAction();
+			player.action();
 			player.attack(enemies);
 			if(Keyboard::get(KEY_INPUT_9) == 1){
-				player.EndMyTurn();
-				player.react();
+				player.endMyTurn();
 				has_come_turn = false;
 				act_only_one = false;
 			}
@@ -75,9 +75,13 @@ void BattleScene::update(){
 		for(auto& enemy : enemies){
 			if(!enemy.isMyTurn()) continue;
 
-			enemy.doAction();
+			enemy.calcMove(players);
+			//enemy.calcAttack(players);
+			enemy.action();
+			//enemy.attack(players);
+
 			if(enemy.getState() == 3){
-				enemy.EndMyTurn();
+				enemy.endMyTurn();
 				has_come_turn = false;
 			}
 			break;
@@ -88,6 +92,14 @@ void BattleScene::update(){
 	//++turn;
 
 	//delete
+	auto player = players.begin();
+	while(player != players.end()){
+		if(player->getHP() <= 0){
+			player = players.erase(player);
+		} else {
+			player++;
+		}
+	}
 	auto enemy = enemies.begin();
 	while(enemy != enemies.end()){
 		if(enemy->getHP() <= 0){

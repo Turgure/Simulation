@@ -8,15 +8,18 @@ public:
 	void setYByPx(int toY);
 	int getXByPx() const;
 	int getYByPx() const;
-	void setXYByPx(int toX, int toY);
-	void MoveByPx(int diffX, int diffY);
-	
 	void setXByMap(int toX);
 	void setYByMap(int toY);
 	int getXByMap() const;
 	int getYByMap() const;
-	void setXYByMap(int toX, int toY);
+
+	void setByPx(int toX, int toY);
+	void MoveByPx(int diffX, int diffY);
+	void setByMap(int toX, int toY);
 	void MoveByMap(int diffX, int diffY);
+
+	int getDistByPx(int x, int y, int toX, int toY);
+	int getDistByMap(int x, int y, int toX, int toY);
 
 	bool targetted(int x, int y);
 

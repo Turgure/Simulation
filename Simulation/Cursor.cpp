@@ -1,14 +1,14 @@
 ﻿#include <DxLib.h>
 #include "Cursor.h"
+#include "GV.h"
 #include "Keyboard.h"
 #include "Event.h"
 #include "Stage.h"
-#include "MapchipDefinition.h"
 
 Position Cursor::varpos(0,0);
 
 Cursor::Cursor(int x, int y){
-	varpos.setXYByMap(x, y);
+	varpos.setByMap(x, y);
 	image = GetColor(0, 255, 0);
 }
 
@@ -37,5 +37,5 @@ void Cursor::draw(){
 }
 
 void Cursor::set(int x, int y){
-	varpos.setXYByMap(x, y);
+	varpos.setByMap(x, y);
 }

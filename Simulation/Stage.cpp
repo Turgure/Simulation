@@ -1,8 +1,8 @@
 ﻿#include <stdio.h>
 #include <DxLib.h>
 #include "Stage.h"
+#include "GV.h"
 #include "FileStream.h"
-#include "MapchipDefinition.h"
 #include "Event.h"
 #include "Cursor.h"
 
@@ -68,7 +68,7 @@ void Stage::initMap(){
 
 	for(int h = 0; h < height; h++){
 		for(int w = 0; w < width; w++){
-			mapchip[h][w].varpos.setXYByMap(w, h);
+			mapchip[h][w].varpos.setByMap(w, h);
 			mapchip[h][w].can_move_object = false;
 
 			for(auto& chip : mapchipStatus){
