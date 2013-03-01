@@ -35,7 +35,7 @@ void Enemy::draw(){
 
 void Enemy::action(){
 	DrawFormatString(0, 48, GetColor(255,255,255), "enemy %d's turn.", status.id);
-	
+
 	switch(state){
 	case SELECT:
 		Stage::eraseBrightPoints();
@@ -93,7 +93,7 @@ bool Enemy::isCountOver(int time){
 
 void Enemy::calcMove(vector<Player>& players){
 	if(state != MOVE) return;
-    Event::range(varpos.getXByMap(), varpos.getYByMap(), status.mobility, true);
+	Event::range(varpos.getXByMap(), varpos.getYByMap(), status.mobility, true);
 
 	int finalX = -1, finalY = -1;
 	int dist = INT_MAX, diff;
@@ -101,18 +101,20 @@ void Enemy::calcMove(vector<Player>& players){
 	for(int y = 0; y < Stage::getHeight(); ++y){
 		for(int x = 0; x < Stage::getWidth(); ++x){
 			if(!Stage::getBrightPoint(x, y)) continue;
-			
+
 			for(auto& player : players){
 				diff = varpos.getDistByMap(x, y, player.pos().getXByMap(), player.pos().getYByMap());
+				//最適な間合い（？）
+				if(diff == attack_range){
+					finalX = x, finalY = y;
+					calcpos.setByMap(finalX, finalY);
+					return;
+				}
+				
 				if(diff <= dist){
 					finalX = x, finalY = y;
 					dist = diff;
-					
-					//最適な間合い（？）
-					if(diff == attack_range){
-						calcpos.setByMap(finalX, finalY);
-						return;
-					}
+
 				}
 			}
 		}
@@ -122,7 +124,7 @@ void Enemy::calcMove(vector<Player>& players){
 
 void Enemy::calcAttack(vector<Player>& players){
 	if(state != ACTION) return;
-    Event::reachTo(varpos.getXByMap(), varpos.getYByMap(), Event::GetColorAttack(), 1, attack_range);
+	Event::reachTo(varpos.getXByMap(), varpos.getYByMap(), Event::GetColorAttack(), 1, attack_range);
 
 	int finalX = -1, finalY = -1;
 	int dist = INT_MAX, diff;
@@ -130,7 +132,7 @@ void Enemy::calcAttack(vector<Player>& players){
 	for(int y = 0; y < Stage::getHeight(); ++y){
 		for(int x = 0; x < Stage::getWidth(); ++x){
 			if(!Stage::getBrightPoint(x, y)) continue;
-			
+
 			for(auto& player : players){
 				diff = varpos.getDistByMap(x, y, player.pos().getXByMap(), player.pos().getYByMap());
 				if(diff == 0){
