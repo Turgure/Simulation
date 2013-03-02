@@ -4,19 +4,26 @@
 #include "Event.h"
 #include "Stage.h"
 
-Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility):varpos(x, y), calcpos(x, y){
-	status.image = GetColor(255, 0, 0);
-	status.id = id;
-	status.maxhp = hp, status.hp = status.maxhp;
-	status.maxmp = mp, status.mp = status.maxmp;
-	status.str = str;
-	status.def = def;
-	status.agi = agi;
-	status.mobility = mobility;
-	state = SELECT;
-	ATBgauge = 100;
-	wait_time = 0;
-	attack_range = 3;
+Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility):
+	varpos(x, y),
+	move_pos(0,0),
+	act_pos(0,0){
+		status.image = GetColor(255, 0, 0);
+		status.id = id;
+		status.maxhp = hp, status.hp = status.maxhp;
+		status.maxmp = mp, status.mp = status.maxmp;
+		status.str = str;
+		status.def = def;
+		status.agi = agi;
+		status.mobility = mobility;
+		state = SELECT;
+		ATBgauge = 100;
+		can_move = true;
+		can_act = false;
+		moved = false;
+		attacked = false;
+		wait_time = 0;
+		attack_range = 3;
 }
 
 void Enemy::update(){
@@ -31,6 +38,18 @@ void Enemy::draw(){
 	if(varpos.targetted(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
 		showStatus(status);
 	}
+
+	switch(state){
+	case MOVE:
+		Event::range(varpos.getXByMap(), varpos.getYByMap(), status.mobility, true);
+		break;
+	case ACTION:
+		if(can_act)
+			Event::reachTo(varpos.getXByMap(), varpos.getYByMap(), Event::GetColorAttack(), 1, attack_range);
+		break;
+	default:
+		break;
+	}
 }
 
 void Enemy::action(){
@@ -38,20 +57,24 @@ void Enemy::action(){
 
 	switch(state){
 	case SELECT:
-		Stage::eraseBrightPoints();
-		if(can_move) state = MOVE;
-		else if(can_act) state = ACTION;
+		if(can_act)
+			state = ACTION;
+		else if(can_move)
+			state = MOVE;
+		else
+			state = END;
 		break;
 
 	case MOVE:
 		//calcMove(player.pos());
-		Cursor::set(calcpos.getXByMap(), calcpos.getYByMap());
+		Cursor::set(move_pos.getXByMap(), move_pos.getYByMap());
 		state = WAIT;
 		break;
 
 	case ACTION:
 		//calcAttack(players);
-		Cursor::set(calcpos.getXByMap(), calcpos.getYByMap());
+		if(can_act)
+			Cursor::set(act_pos.getXByMap(), act_pos.getYByMap());
 		state = WAIT;
 		//attack(players);
 		break;
@@ -63,16 +86,22 @@ void Enemy::action(){
 		break;
 
 	case WAIT:
-		if(isCountOver(30)){
-			if(can_move){
+		//if(isCountOver(30))
+		if(can_act){
+			break;
+		} else if(can_move){
+			if(Cursor::pos().targetted(varpos.getXByMap(), varpos.getYByMap())){
 				can_move = false;
-				wait_time = 0;
-				varpos.setByMap(Cursor::pos().getXByMap(), Cursor::pos().getYByMap());
 				Stage::eraseBrightPoints();
 				state = SELECT;
-			} else if(can_act){
-				can_act = false;
-				state = END;
+				break;
+			}
+			if(isCountOver(30)){
+				varpos.setByMap(Cursor::pos().getXByMap(), Cursor::pos().getYByMap());
+				can_move = false;
+				moved = false;
+				Stage::eraseBrightPoints();
+				state = SELECT;
 			}
 		}
 		break;
@@ -83,21 +112,27 @@ void Enemy::endMyTurn(){
 	state = SELECT;
 	ATBgauge =  100;
 	wait_time = 0;
+	//if(moved) ATBgauge += 20;
+	//if(attacked) ATBgauge += 60;
 	can_move = true;
-	can_act = true;
+	can_act = false;
+	moved = false;
+	attacked = false;
 }
 
 bool Enemy::isCountOver(int time){
-	return (++wait_time > time);
+	if(++wait_time > time){
+		wait_time = 0;
+		return true;
+	}
+	else return false;
 }
 
 void Enemy::calcMove(vector<Player>& players){
-	if(state != MOVE) return;
 	Event::range(varpos.getXByMap(), varpos.getYByMap(), status.mobility, true);
 
 	int finalX = -1, finalY = -1;
 	int dist = INT_MAX, diff;
-
 	for(int y = 0; y < Stage::getHeight(); ++y){
 		for(int x = 0; x < Stage::getWidth(); ++x){
 			if(!Stage::getBrightPoint(x, y)) continue;
@@ -107,10 +142,11 @@ void Enemy::calcMove(vector<Player>& players){
 				//最適な間合い（？）
 				if(diff == attack_range){
 					finalX = x, finalY = y;
-					calcpos.setByMap(finalX, finalY);
+					move_pos.setByMap(finalX, finalY);
+					Stage::eraseBrightPoints();
 					return;
 				}
-				
+
 				if(diff <= dist){
 					finalX = x, finalY = y;
 					dist = diff;
@@ -119,16 +155,16 @@ void Enemy::calcMove(vector<Player>& players){
 			}
 		}
 	}
-	calcpos.setByMap(finalX, finalY);
+	move_pos.setByMap(finalX, finalY);
+	Stage::eraseBrightPoints();
 }
 
 void Enemy::calcAttack(vector<Player>& players){
-	if(state != ACTION) return;
+	if(attacked) return;
+
 	Event::reachTo(varpos.getXByMap(), varpos.getYByMap(), Event::GetColorAttack(), 1, attack_range);
 
-	int finalX = -1, finalY = -1;
-	int dist = INT_MAX, diff;
-
+	int finalX, finalY, diff;
 	for(int y = 0; y < Stage::getHeight(); ++y){
 		for(int x = 0; x < Stage::getWidth(); ++x){
 			if(!Stage::getBrightPoint(x, y)) continue;
@@ -137,21 +173,30 @@ void Enemy::calcAttack(vector<Player>& players){
 				diff = varpos.getDistByMap(x, y, player.pos().getXByMap(), player.pos().getYByMap());
 				if(diff == 0){
 					finalX = x, finalY = y;
-					calcpos.setByMap(finalX, finalY);
+					act_pos.setByMap(finalX, finalY);
+					can_act = true;
+					Stage::eraseBrightPoints();
 					return;
 				}
 			}
 		}
 	}
 	//探索にヒットしなかったら
-	calcpos.setByMap(varpos.getXByMap(), varpos.getYByMap());
+	act_pos.setByMap(-1, -1);
+	Stage::eraseBrightPoints();
 }
 
 void Enemy::attack(vector<Player>& players){
-	if(!can_act) return;
+	if(act_pos.getXByMap() < 0) return;
+	if(!can_act && attacked) return;
+	if(!isCountOver(30)) return;
 
-	for(auto& player : players){
-		if(Stage::getBrightPoint(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
+	can_act = false;
+	attacked = true;
+	state = SELECT;
+
+	if(Stage::getBrightPoint(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
+		for(auto& player : players){
 			int diff = status.str - player.getDef();
 			if(diff <= 0) continue;
 

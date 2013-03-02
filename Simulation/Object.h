@@ -40,7 +40,7 @@ protected:
 	bool can_act;
 
 public:
-	//1=>SELECT, 2=>MOVE, 3=>END, 4=>WAIT
+	//0=>SELECT, 1=>MOVE, ACTION=>2, 3=>END, 4=>WAIT
 	State getState() const { return state; }
 };
 
@@ -121,8 +121,11 @@ public:
 private:
 	int wait_time;
 	int attack_range;
+	bool moved;
+	bool attacked;
 	Status status;
 	
 	Position varpos;
-	Position calcpos;
+	Position move_pos;
+	Position act_pos;
 };

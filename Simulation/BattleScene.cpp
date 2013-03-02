@@ -4,6 +4,7 @@
 #include "HomeScene.h"
 #include "Keyboard.h"
 #include "Cursor.h"
+#include "Event.h"
 
 BattleScene::BattleScene():cursor(0, 0){
 	has_come_turn = false;
@@ -75,10 +76,12 @@ void BattleScene::update(){
 		for(auto& enemy : enemies){
 			if(!enemy.isMyTurn()) continue;
 
-			enemy.calcMove(players);
-			//enemy.calcAttack(players);
+			if(enemy.getState() == 0){
+				enemy.calcMove(players);
+				enemy.calcAttack(players);
+			}
 			enemy.action();
-			//enemy.attack(players);
+			enemy.attack(players);
 
 			if(enemy.getState() == 3){
 				enemy.endMyTurn();
@@ -110,7 +113,7 @@ void BattleScene::update(){
 	}
 
 	//change scene
-	if(enemies.empty()){
+	if(players.empty() || enemies.empty()){
 		changeScene(new HomeScene);
 	}
 }
