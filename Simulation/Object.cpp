@@ -44,7 +44,7 @@ void ObjectManager::create(vector<Enemy> &enemies, string filename){
 	int d[256][256];
 	for(unsigned int i = 0; i < status.size(); ++i){
 		for(unsigned int j = 0; j < status[i].size(); ++j){
-			d[i][j] = atoi(status[i][j].c_str());
+			d[i][j] = stoi(status[i][j]);
 		}
 
 		do{

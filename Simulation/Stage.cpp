@@ -58,11 +58,11 @@ void Stage::initMap(){
 	for(unsigned int h = 0; h < mapid.size(); ++h){
 		for(unsigned int w = 0; w < mapid[h].size(); ++w){
 			if(h == 0){
-				width = atoi(mapid[h][0].c_str());
-				height = atoi(mapid[h][1].c_str());
+				width = stoi(mapid[h][0]);
+				height = stoi(mapid[h][1]);
 				break;
 			}
-			mapchip[h-1][w].id = atoi(mapid[h][w].c_str());
+			mapchip[h-1][w].id = stoi(mapid[h][w]);
 		}
 	}
 
