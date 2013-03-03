@@ -128,6 +128,14 @@ void Stage::drawBrightPoints(){
 	}
 }
 
+void Stage::lateUpdate(){
+	for(int h = 0; h < height; h++){
+		for(int w = 0; w < width; w++){
+			mapchip[h][w].is_object_on_map = false;
+		}
+	}
+}
+
 void Stage::setBrightPoint(int x, int y, int color){
 	mapchip[y][x].can_move_object = true;
 	mapchip[y][x].bright_color = color;
@@ -144,9 +152,17 @@ void Stage::eraseBrightPoint(int x, int y){
 void Stage::eraseBrightPoints(){
 	for(int h = 0; h < height; h++){
 		for(int w = 0; w < width; w++){
-			mapchip[h][w].can_move_object = false;
+			eraseBrightPoint(w, h);
 		}
 	}
+}
+
+void Stage::objectIsOn(int x, int y){
+	mapchip[y][x].is_object_on_map = true;
+}
+
+bool Stage::isObject(int x, int y){
+	return mapchip[y][x].is_object_on_map;
 }
 
 bool Stage::canMove(int x, int y){

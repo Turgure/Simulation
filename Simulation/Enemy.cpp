@@ -135,7 +135,7 @@ void Enemy::calcMove(vector<Player>& players){
 	int dist = INT_MAX, diff;
 	for(int y = 0; y < Stage::getHeight(); ++y){
 		for(int x = 0; x < Stage::getWidth(); ++x){
-			if(!Stage::getBrightPoint(x, y)) continue;
+			if(!Stage::getBrightPoint(x, y) || Stage::isObject(x, y)) continue;
 
 			for(auto& player : players){
 				diff = varpos.getDistByMap(x, y, player.pos().getXByMap(), player.pos().getYByMap());

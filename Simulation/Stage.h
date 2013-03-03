@@ -16,11 +16,14 @@ public:
 	void draw();
 	void drawMap();
 	void drawBrightPoints();
+	void lateUpdate();
 
 	static void setBrightPoint(int x, int y, int color);
 	static bool getBrightPoint(int x, int y);
 	static void eraseBrightPoint(int x, int y);
 	static void eraseBrightPoints();
+	static void objectIsOn(int x, int y);
+	static bool isObject(int x, int y);
 	static bool canMove(int x, int y);
 	static int getResistance(int x, int y);
 
@@ -51,6 +54,7 @@ private:
 		int mapchip_color;
 		int resistance;
 		int bright_color;
+		bool is_object_on_map;
 		bool can_move_object;
 	};
 

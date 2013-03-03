@@ -2,7 +2,7 @@
 #include "BaseScene.h"
 #include "Keyboard.h"
 
-bool BaseScene::running;
+bool BaseScene::running = false;
 
 BaseScene* BaseScene::main(){
 	if(running) return nullptr;	//1度に実行できるシーンは1つ

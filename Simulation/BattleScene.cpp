@@ -116,6 +116,7 @@ void BattleScene::update(){
 	if(players.empty() || enemies.empty()){
 		changeScene(new HomeScene);
 	}
+	lateUpdate();
 }
 
 void BattleScene::draw(){
@@ -132,4 +133,8 @@ void BattleScene::draw(){
 	for(auto& enemy : enemies){
 		enemy.draw();
 	}
+}
+
+void BattleScene::lateUpdate(){
+	stage.lateUpdate();
 }

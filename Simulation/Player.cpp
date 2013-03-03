@@ -66,7 +66,8 @@ void Player::action(){
 		if(Keyboard::get(KEY_INPUT_3) == 1) state = SELECT;
 		if(Keyboard::get(KEY_INPUT_1) == 1){
 			state = SELECT;
-			if(Stage::getBrightPoint(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
+			if(Stage::getBrightPoint(Cursor::pos().getXByMap(), Cursor::pos().getYByMap()) &&
+				!Stage::isObject(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
 				varpos.setByMap(Cursor::pos().getXByMap(), Cursor::pos().getYByMap());
 				can_move = false;
 			}

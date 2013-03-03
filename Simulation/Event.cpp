@@ -21,6 +21,8 @@ void Event::DrawGraphOnMap(int x, int y, int image){
 	//DrawGraph(leftupPositionX + x*mapsize, leftupPositionY + y*mapsize, image, true);
 	DrawBox(Stage::getLeftupPositionX() + x*mapsize +5, Stage::getLeftupPositionY() + y*mapsize +5,
 		Stage::getLeftupPositionX() + (x+1)*mapsize -5, Stage::getLeftupPositionY() + (y+1)*mapsize -5, image, true);
+
+	Stage::objectIsOn(x, y);
 }
 
 void Event::range(int x, int y, int n, bool consider_resistance){
