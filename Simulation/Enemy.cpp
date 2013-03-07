@@ -8,14 +8,14 @@ Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, in
 	varpos(x, y),
 	move_pos(0,0),
 	act_pos(0,0){
-		status.image = GetColor(255, 0, 0);
-		status.id = id;
-		status.maxhp = hp, status.hp = status.maxhp;
-		status.maxmp = mp, status.mp = status.maxmp;
-		status.str = str;
-		status.def = def;
-		status.agi = agi;
-		status.mobility = mobility;
+		image = GetColor(255, 0, 0);
+		this->id = id;
+		this->hp = maxhp = hp;
+		this->mp = maxmp = mp;
+		this->str = str;
+		this->def = def;
+		this->agi = agi;
+		this->mobility = mobility;
 		state = SELECT;
 		ATBgauge = 100;
 		can_move = true;
@@ -27,21 +27,21 @@ Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, in
 }
 
 void Enemy::update(){
-	ATBgauge -= status.agi;
+	ATBgauge -= agi;
 }
 
 void Enemy::draw(){
-	Event::DrawGraphOnMap(varpos.getXByMap(), varpos.getYByMap(), status.image);
+	Event::DrawGraphOnMap(varpos.getXByMap(), varpos.getYByMap(), image);
 	//show id on object
-	DrawFormatString(varpos.getXByPx(), varpos.getYByPx(), GetColor(255,255,255), "%d", status.id);
+	DrawFormatString(varpos.getXByPx(), varpos.getYByPx(), GetColor(255,255,255), "%d", id);
 
 	if(varpos.targetted(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
-		showStatus(status);
+		showStatus(200, 0);
 	}
 
 	switch(state){
 	case MOVE:
-		Event::range(varpos.getXByMap(), varpos.getYByMap(), status.mobility, true);
+		Event::range(varpos.getXByMap(), varpos.getYByMap(), mobility, true);
 		break;
 	case ACTION:
 		if(can_act)
@@ -53,7 +53,7 @@ void Enemy::draw(){
 }
 
 void Enemy::action(){
-	DrawFormatString(0, 48, GetColor(255,255,255), "enemy %d's turn.", status.id);
+	DrawFormatString(0, 48, GetColor(255,255,255), "enemy %d's turn.", id);
 
 	switch(state){
 	case SELECT:
@@ -129,7 +129,7 @@ bool Enemy::isCountOver(int time){
 }
 
 void Enemy::calcMove(vector<Player>& players){
-	Event::range(varpos.getXByMap(), varpos.getYByMap(), status.mobility, true);
+	Event::range(varpos.getXByMap(), varpos.getYByMap(), mobility, true);
 
 	int finalX = -1, finalY = -1;
 	int dist = INT_MAX, diff;
@@ -197,7 +197,7 @@ void Enemy::attack(vector<Player>& players){
 
 	if(Stage::getBrightPoint(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
 		for(auto& player : players){
-			int diff = status.str - player.getDef();
+			int diff = str - player.getDef();
 			if(diff <= 0) continue;
 
 			if(player.pos().targetted(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){

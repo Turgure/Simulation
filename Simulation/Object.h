@@ -1,8 +1,9 @@
 ﻿#pragma once
 #include <vector>
 #include <string>
-#include "Position.h"
 #include "GV.h"
+#include "Position.h"
+#include "ObjectStatus.h"
 using namespace std;
 
 //オブジェクトの基底クラス
@@ -18,21 +19,6 @@ protected:
 	virtual void draw(){};
 	virtual void action(){};
 	virtual void endMyTurn(){};
-
-	typedef struct{
-		int id;
-		int image;
-		string name;
-		int maxhp;
-		int maxmp;
-		int hp;
-		int mp;
-		int str;
-		int def;
-		int agi;
-		int mobility;
-	}Status;
-	void showStatus(Status st);
 	
 	enum State{SELECT, MOVE, ACTION, END, WAIT} state;
 	int ATBgauge;
@@ -55,7 +41,7 @@ public:
 };
 
 //プレイヤークラス
-class Player : public BaseObject{
+class Player : public BaseObject, public ObjectStatus{
 public:
 	Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility);
 	virtual void update() override;
@@ -67,30 +53,16 @@ public:
 
 	void attack(vector<Enemy>& enemies);
 	
-	void setHP(int hp){ status.hp = hp; }
-	int getHP() const { return status.hp; }
-    int getMaxHP() const { return status.maxhp; }
-	void setMP(int mp){ status.mp = mp; }
-	int getMP() const { return status.mp; }
-    int getMaxMP() const { return status.maxmp; }
-	void setStr(int str){ status.str = str; }
-	int getStr() const { return status.str; }
-	void setDef(int def){ status.def = def; }
-	int getDef() const { return status.def; }
-	void setAgi(int agi){ status.agi = agi; }
-	int getAgi() const { return status.agi; }
-
 	Position pos(){ return varpos; }
 
 private:
-	Status status;
 
 	Position varpos;
 };
 
 
 //エネミークラス
-class Enemy : public BaseObject{
+class Enemy : public BaseObject, public ObjectStatus{
 public:
 	Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility);
 	virtual void update() override;
@@ -103,19 +75,6 @@ public:
 	void calcAttack(vector<Player>& players);
 	void attack(vector<Player>& players);
 
-	void setHP(int hp){ status.hp = hp; }
-	int getHP() const { return status.hp; }
-    int getMaxHP() const { return status.maxhp; }
-	void setMP(int mp){ status.mp = mp; }
-	int getMP() const { return status.mp; }
-    int getMaxMP() const { return status.maxmp; }
-	void setStr(int str){ status.str = str; }
-	int getStr() const { return status.str; }
-	void setDef(int def){ status.def = def; }
-	int getDef() const { return status.def; }
-	void setAgi(int agi){ status.agi = agi; }
-	int getAgi() const { return status.agi; }
-
 	Position pos(){ return varpos; }
 
 private:
@@ -123,7 +82,6 @@ private:
 	int attack_range;
 	bool moved;
 	bool attacked;
-	Status status;
 	
 	Position varpos;
 	Position move_pos;

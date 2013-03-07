@@ -20,6 +20,7 @@
     <ClInclude Include="BattleScene.h" />
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="ObjectStatus.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Position.h" />
   </ItemGroup>
@@ -34,6 +35,7 @@
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="ObjectStatus.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Position.cpp" />

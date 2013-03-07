@@ -6,14 +6,14 @@
 #include "Stage.h"
 
 Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility):varpos(x, y){
-	status.image = GetColor(0, 0, 255);
-	status.id = id;
-	status.maxhp = hp, status.hp = status.maxhp;
-	status.maxmp = mp, status.mp = status.maxmp;
-	status.str = str;
-	status.def = def;
-	status.agi = agi;
-	status.mobility = mobility;
+	image = GetColor(0, 0, 255);
+	this->id = id;
+	this->hp = maxhp = hp;
+	this->mp = maxmp = mp;
+	this->str = str;
+	this->def = def;
+	this->agi = agi;
+	this->mobility = mobility;
 	state = SELECT;
 	ATBgauge = 100;
 	can_move = true;
@@ -21,23 +21,23 @@ Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, 
 }
 
 void Player::update(){
-	ATBgauge -= status.agi;
+	ATBgauge -= agi;
 }
 
 void Player::draw(){
-	Event::DrawGraphOnMap(varpos.getXByMap(), varpos.getYByMap(), status.image);
+	Event::DrawGraphOnMap(varpos.getXByMap(), varpos.getYByMap(), image);
 	//show id on object
-	DrawFormatString(varpos.getXByPx(), varpos.getYByPx(), GetColor(255,255,255), "%d", status.id);
+	DrawFormatString(varpos.getXByPx(), varpos.getYByPx(), GetColor(255,255,255), "%d", id);
 
 	if(varpos.targetted(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
-		showStatus(status);
+		showStatus(200, 0);
 	}
 
 	showCommand();
 
 	switch(state){
 	case MOVE:
-		Event::range(varpos.getXByMap(), varpos.getYByMap(), status.mobility, true);
+		Event::range(varpos.getXByMap(), varpos.getYByMap(), mobility, true);
 		break;
 	case ACTION:
 		Event::aroundTo(varpos.getXByMap(), varpos.getYByMap(), Event::GetColorAttack(), 3);
@@ -48,7 +48,7 @@ void Player::draw(){
 }
 
 void Player::action(){
-	DrawFormatString(0, 48, GetColor(255,255,255), "player %d's turn.", status.id);
+	DrawFormatString(0, 48, GetColor(255,255,255), "player %d's turn.", id);
 	
 	if(!can_move && !can_act) state = END;
 	
@@ -138,7 +138,7 @@ void Player::attack(vector<Enemy> &enemies){
 				if(enemy.pos().targetted(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
 					can_act = false;
 
-					int diff = status.str - enemy.getDef();
+					int diff = str - enemy.getDef();
 					if(diff <= 0){
 						break;
 					}
