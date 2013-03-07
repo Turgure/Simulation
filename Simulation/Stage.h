@@ -55,7 +55,7 @@ private:
 		int resistance;
 		int bright_color;
 		bool is_object_on_map;
-		bool movable;
+		bool is_brighting;
 	};
 
 	vector<MapchipStatus> mapchipStatus;

@@ -69,7 +69,7 @@ void Stage::initMap(){
 	for(int h = 0; h < height; h++){
 		for(int w = 0; w < width; w++){
 			mapchip[h][w].varpos.setByMap(w, h);
-			mapchip[h][w].movable = false;
+			mapchip[h][w].is_brighting = false;
 
 			for(auto& chip : mapchipStatus){
 				if(mapchip[h][w].id == chip.id){
@@ -118,7 +118,7 @@ void Stage::drawMap(){
 void Stage::drawBrightPoints(){
 	for(int h = 0; h < height; h++){
 		for(int w = 0; w < width; w++){
-			if(mapchip[h][w].movable){
+			if(mapchip[h][w].is_brighting){
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 192);
 				DrawBox(mapchip[h][w].varpos.getXByPx(), mapchip[h][w].varpos.getYByPx(),
 					mapchip[h][w].varpos.getXByPx() + mapsize, mapchip[h][w].varpos.getYByPx() + mapsize, mapchip[h][w].bright_color, true);
@@ -137,16 +137,16 @@ void Stage::lateUpdate(){
 }
 
 void Stage::setBrightPoint(int x, int y, int color){
-	mapchip[y][x].movable = true;
+	mapchip[y][x].is_brighting = true;
 	mapchip[y][x].bright_color = color;
 }
 
 bool Stage::getBrightPoint(int x, int y){
-	return mapchip[y][x].movable;
+	return mapchip[y][x].is_brighting;
 }
 
 void Stage::eraseBrightPoint(int x, int y){
-	mapchip[y][x].movable = false;
+	mapchip[y][x].is_brighting = false;
 }
 
 void Stage::eraseBrightPoints(){
