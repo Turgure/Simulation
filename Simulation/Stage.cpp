@@ -12,6 +12,8 @@ int Stage::leftup_positionX = 128;
 int Stage::leftup_positionY = 128;
 Stage::Mapchip Stage::mapchip[100][100];
 
+unordered_map<int, BaseObject*> Stage::objects;
+
 Stage::Stage(){
 	initialize();
 }
@@ -53,7 +55,7 @@ void Stage::initID(){
 void Stage::initMap(){
 	vector<vector<string>> mapid;
 	FileStream::load("data/stage/stage2/map.csv", mapid);
-	
+
 	//idの読み込み
 	for(unsigned int h = 0; h < mapid.size(); ++h){
 		for(unsigned int w = 0; w < mapid[h].size(); ++w){
@@ -129,11 +131,7 @@ void Stage::drawBrightPoints(){
 }
 
 void Stage::lateUpdate(){
-	for(int h = 0; h < height; h++){
-		for(int w = 0; w < width; w++){
-			mapchip[h][w].is_object_on_map = false;
-		}
-	}
+	objects.clear();
 }
 
 void Stage::setBrightPoint(int x, int y, int color){
@@ -157,12 +155,17 @@ void Stage::eraseBrightPoints(){
 	}
 }
 
-void Stage::objectIsOn(int x, int y){
-	mapchip[y][x].is_object_on_map = true;
+void Stage::setObjectAt(int x, int y, BaseObject* obj){
+	objects.insert(make_pair(y*width + x, obj));
 }
 
-bool Stage::isObject(int x, int y){
-	return mapchip[y][x].is_object_on_map;
+BaseObject* Stage::getObjectAt(int x, int y){
+	for(auto& obj : objects){
+		if(obj.first == y*width + x){
+			return obj.second;
+		}
+	}
+	return NULL;
 }
 
 bool Stage::canMove(int x, int y){

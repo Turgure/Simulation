@@ -12,7 +12,9 @@ public:
 	BaseObject(){};
 	virtual ~BaseObject(){};
 
+	virtual void stepATBgauge(){};
 	bool isMyTurn();
+
 
 protected:
 	virtual void update(){};
@@ -48,6 +50,7 @@ public:
 	virtual void draw() override;
 	virtual void action() override;
 	virtual void endMyTurn() override;
+	virtual void stepATBgauge() override;
 
 	void showCommand();
 
@@ -56,7 +59,6 @@ public:
 	Position pos(){ return varpos; }
 
 private:
-
 	Position varpos;
 };
 
@@ -69,6 +71,7 @@ public:
 	virtual void draw() override;
 	virtual void action() override;
 	virtual void endMyTurn() override;
+	virtual void stepATBgauge() override;
 	
 	bool isCountOver(int time);
 	void calcMove(vector<Player>& players);

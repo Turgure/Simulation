@@ -27,7 +27,7 @@ Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, in
 }
 
 void Enemy::update(){
-	ATBgauge -= agi;
+	Stage::setObjectAt(varpos.getXByMap(), varpos.getYByMap(), this);
 }
 
 void Enemy::draw(){
@@ -120,6 +120,11 @@ void Enemy::endMyTurn(){
 	attacked = false;
 }
 
+
+void Enemy::stepATBgauge(){
+	ATBgauge -= agi;
+}
+
 bool Enemy::isCountOver(int time){
 	if(++wait_time > time){
 		wait_time = 0;
@@ -135,7 +140,7 @@ void Enemy::calcMove(vector<Player>& players){
 	int dist = INT_MAX, diff;
 	for(int y = 0; y < Stage::getHeight(); ++y){
 		for(int x = 0; x < Stage::getWidth(); ++x){
-			if(!Stage::getBrightPoint(x, y) || Stage::isObject(x, y)) continue;
+			if(!Stage::getBrightPoint(x, y) || Stage::getObjectAt(x, y)) continue;
 
 			for(auto& player : players){
 				diff = varpos.getDistByMap(x, y, player.pos().getXByMap(), player.pos().getYByMap());

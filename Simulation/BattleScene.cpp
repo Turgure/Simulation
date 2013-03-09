@@ -25,11 +25,18 @@ void BattleScene::update(){
 	stage.update();
 	cursor.update();
 
-	//calculate
+	for(auto& player : players){
+		player.update();
+	}
+	for(auto& enemy : enemies){
+		enemy.update();
+	}
+
+	//calculate ATBgauge
 	while(!has_come_turn){
 		for(auto& player : players){
 			//sub ATBgauge
-			player.update();
+			player.stepATBgauge();
 
 			//check
 			if(player.isMyTurn()){
@@ -43,7 +50,7 @@ void BattleScene::update(){
 
 		for(auto& enemy : enemies){
 			//sub ATBgauge
-			enemy.update();
+			enemy.stepATBgauge();
 
 			//check
 			if(enemy.isMyTurn()){
@@ -116,6 +123,7 @@ void BattleScene::update(){
 	if(players.empty() || enemies.empty()){
 		changeScene(new HomeScene);
 	}
+
 	lateUpdate();
 }
 

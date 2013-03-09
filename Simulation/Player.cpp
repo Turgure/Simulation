@@ -21,7 +21,7 @@ Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, 
 }
 
 void Player::update(){
-	ATBgauge -= agi;
+	Stage::setObjectAt(varpos.getXByMap(), varpos.getYByMap(), this);
 }
 
 void Player::draw(){
@@ -49,9 +49,9 @@ void Player::draw(){
 
 void Player::action(){
 	DrawFormatString(0, 48, GetColor(255,255,255), "player %d's turn.", id);
-	
+
 	if(!can_move && !can_act) state = END;
-	
+
 	switch(state){
 	case SELECT:
 		Stage::eraseBrightPoints();
@@ -67,9 +67,9 @@ void Player::action(){
 		if(Keyboard::get(KEY_INPUT_1) == 1){
 			state = SELECT;
 			if(Stage::getBrightPoint(Cursor::pos().getXByMap(), Cursor::pos().getYByMap()) &&
-				!Stage::isObject(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
-				varpos.setByMap(Cursor::pos().getXByMap(), Cursor::pos().getYByMap());
-				can_move = false;
+				!Stage::getObjectAt(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
+					varpos.setByMap(Cursor::pos().getXByMap(), Cursor::pos().getYByMap());
+					can_move = false;
 			}
 		}
 		break;
@@ -93,6 +93,10 @@ void Player::endMyTurn(){
 	if(!can_act) ATBgauge += 60;
 	can_move = true;
 	can_act = true;
+}
+
+void Player::stepATBgauge(){
+	ATBgauge -= agi;
 }
 
 void Player::showCommand(){
