@@ -1,9 +1,7 @@
-﻿#include <stdio.h>
-#include <DxLib.h>
+﻿#include <DxLib.h>
 #include "Stage.h"
 #include "GV.h"
 #include "FileStream.h"
-#include "Event.h"
 #include "Cursor.h"
 
 int Stage::width;
@@ -11,8 +9,6 @@ int Stage::height;
 int Stage::leftup_positionX = 128;
 int Stage::leftup_positionY = 128;
 Stage::Mapchip Stage::mapchip[100][100];
-
-unordered_map<int, BaseObject*> Stage::objects;
 
 Stage::Stage(){
 	initialize();
@@ -70,8 +66,9 @@ void Stage::initMap(){
 
 	for(int h = 0; h < height; h++){
 		for(int w = 0; w < width; w++){
-			mapchip[h][w].varpos.setByMap(w, h);
+			mapchip[h][w].mypos.setByMap(w, h);
 			mapchip[h][w].is_brighting = false;
+			mapchip[h][w].object = nullptr;
 
 			for(auto& chip : mapchipStatus){
 				if(mapchip[h][w].id == chip.id){
@@ -111,8 +108,8 @@ void Stage::draw(){
 void Stage::drawMap(){
 	for(int h = 0; h < height; h++){
 		for(int w = 0; w < width; w++){
-			DrawBox(mapchip[h][w].varpos.getXByPx(), mapchip[h][w].varpos.getYByPx(),
-				mapchip[h][w].varpos.getXByPx() + mapsize, mapchip[h][w].varpos.getYByPx() + mapsize, mapchip[h][w].mapchip_color, false);
+			DrawBox(mapchip[h][w].mypos.getXByPx(), mapchip[h][w].mypos.getYByPx(),
+				mapchip[h][w].mypos.getXByPx() + mapsize, mapchip[h][w].mypos.getYByPx() + mapsize, mapchip[h][w].mapchip_color, false);
 		}
 	}
 }
@@ -122,8 +119,8 @@ void Stage::drawBrightPoints(){
 		for(int w = 0; w < width; w++){
 			if(mapchip[h][w].is_brighting){
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 192);
-				DrawBox(mapchip[h][w].varpos.getXByPx(), mapchip[h][w].varpos.getYByPx(),
-					mapchip[h][w].varpos.getXByPx() + mapsize, mapchip[h][w].varpos.getYByPx() + mapsize, mapchip[h][w].bright_color, true);
+				DrawBox(mapchip[h][w].mypos.getXByPx(), mapchip[h][w].mypos.getYByPx(),
+					mapchip[h][w].mypos.getXByPx() + mapsize, mapchip[h][w].mypos.getYByPx() + mapsize, mapchip[h][w].bright_color, true);
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
 		}
@@ -131,7 +128,11 @@ void Stage::drawBrightPoints(){
 }
 
 void Stage::lateUpdate(){
-	objects.clear();
+	for(int h = 0; h < height; h++){
+		for(int w = 0; w < width; w++){
+			mapchip[h][w].object = nullptr;
+		}
+	}
 }
 
 void Stage::setBrightPoint(int x, int y, int color){
@@ -156,16 +157,11 @@ void Stage::eraseBrightPoints(){
 }
 
 void Stage::setObjectAt(int x, int y, BaseObject* obj){
-	objects.insert(make_pair(y*width + x, obj));
+	mapchip[y][x].object = obj;
 }
 
 BaseObject* Stage::getObjectAt(int x, int y){
-	for(auto& obj : objects){
-		if(obj.first == y*width + x){
-			return obj.second;
-		}
-	}
-	return NULL;
+	return mapchip[y][x].object;
 }
 
 bool Stage::canMove(int x, int y){

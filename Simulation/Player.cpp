@@ -5,7 +5,7 @@
 #include "Event.h"
 #include "Stage.h"
 
-Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility):varpos(x, y){
+Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility):mypos(x, y){
 	image = GetColor(0, 0, 255);
 	this->id = id;
 	this->hp = maxhp = hp;
@@ -21,15 +21,15 @@ Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, 
 }
 
 void Player::update(){
-	Stage::setObjectAt(varpos.getXByMap(), varpos.getYByMap(), this);
+	Stage::setObjectAt(mypos.getXByMap(), mypos.getYByMap(), this);
 }
 
 void Player::draw(){
-	Event::DrawGraphOnMap(varpos.getXByMap(), varpos.getYByMap(), image);
+	Event::DrawGraphOnMap(mypos.getXByMap(), mypos.getYByMap(), image);
 	//show id on object
-	DrawFormatString(varpos.getXByPx(), varpos.getYByPx(), GetColor(255,255,255), "%d", id);
+	DrawFormatString(mypos.getXByPx(), mypos.getYByPx(), GetColor(255,255,255), "%d", id);
 
-	if(varpos.targetted(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
+	if(mypos.targetted(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
 		showStatus(200, 0);
 	}
 
@@ -37,10 +37,10 @@ void Player::draw(){
 
 	switch(state){
 	case MOVE:
-		Event::range(varpos.getXByMap(), varpos.getYByMap(), mobility, true);
+		Event::range(mypos.getXByMap(), mypos.getYByMap(), mobility, true);
 		break;
 	case ACTION:
-		Event::aroundTo(varpos.getXByMap(), varpos.getYByMap(), Event::GetColorAttack(), 3);
+		Event::aroundTo(mypos.getXByMap(), mypos.getYByMap(), Event::GetColorAttack(), 3);
 		break;
 	default:
 		break;
@@ -55,7 +55,7 @@ void Player::action(){
 	switch(state){
 	case SELECT:
 		Stage::eraseBrightPoints();
-		if(varpos.targetted(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
+		if(mypos.targetted(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
 			if(Keyboard::get(KEY_INPUT_1) == 1 && can_move) state = MOVE;
 			if(Keyboard::get(KEY_INPUT_2) == 1 && can_act) state = ACTION;
 			if(Keyboard::get(KEY_INPUT_3) == 1) state = END;
@@ -68,7 +68,7 @@ void Player::action(){
 			state = SELECT;
 			if(Stage::getBrightPoint(Cursor::pos().getXByMap(), Cursor::pos().getYByMap()) &&
 				!Stage::getObjectAt(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
-					varpos.setByMap(Cursor::pos().getXByMap(), Cursor::pos().getYByMap());
+					mypos.setByMap(Cursor::pos().getXByMap(), Cursor::pos().getYByMap());
 					can_move = false;
 			}
 		}
@@ -102,7 +102,7 @@ void Player::stepATBgauge(){
 void Player::showCommand(){
 	switch(state){
 	case SELECT:
-		if(varpos.targetted(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
+		if(mypos.targetted(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
 			if(can_move){
 				DrawString(400, 0, "MOVE   : key 1", GetColor(255,255,255));
 			}
@@ -125,7 +125,7 @@ void Player::showCommand(){
 		DrawString(400, 32, "cancel : key 3", GetColor(255,255,255));
 		break;
 	case END:
-		if(varpos.targetted(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())) 
+		if(mypos.targetted(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())) 
 			DrawString(400,  0, "end.", GetColor(255,255,255));
 		break;
 	}

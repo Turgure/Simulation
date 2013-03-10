@@ -1,8 +1,5 @@
 ﻿#pragma once
-#include <fstream>
-#include <string>
 #include <vector>
-#include <unordered_map>
 #include "Position.h"
 using namespace std;
 
@@ -51,21 +48,19 @@ private:
 	};
 
 	struct Mapchip{
-		Mapchip():varpos(0,0){};
-		Position varpos;
+		Mapchip():mypos(0,0){};
+		Position mypos;
 		int id;
 		int mapchip_color;
 		int resistance;
 		int bright_color;
 		bool is_brighting;
+		BaseObject* object;
 	};
 
 	vector<MapchipStatus> mapchipStatus;
 	static Mapchip mapchip[100][100];	//予め100x100のメモリを確保
 	
-	//オブジェクトの位置情報
-	static unordered_map<int, BaseObject*> objects;
-
 public:
-	static Position pos(int x, int y){ return mapchip[x][y].varpos; }
+	static Position pos(int x, int y){ return mapchip[x][y].mypos; }
 };

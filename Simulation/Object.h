@@ -56,10 +56,10 @@ public:
 
 	void attack(vector<Enemy>& enemies);
 	
-	Position pos(){ return varpos; }
+	Position pos(){ return mypos; }
 
 private:
-	Position varpos;
+	Position mypos;
 };
 
 
@@ -78,7 +78,7 @@ public:
 	void calcAttack(vector<Player>& players);
 	void attack(vector<Player>& players);
 
-	Position pos(){ return varpos; }
+	Position pos(){ return mypos; }
 
 private:
 	int wait_time;
@@ -86,7 +86,7 @@ private:
 	bool moved;
 	bool attacked;
 	
-	Position varpos;
+	Position mypos;
 	Position move_pos;
 	Position act_pos;
 };

@@ -26,13 +26,18 @@ void Event::DrawGraphOnMap(int x, int y, int image){
 void Event::range(int x, int y, int n, bool consider_resistance){
 	if(n <= 0) return;
 
+	int toX, toY;
 	int rest[4];
 	for(int i = 0; i < 4; ++i){
-		rest[i] = consider_resistance ? n - Stage::getResistance(x + dir[i*2][0], y + dir[i*2][1]) : n - 1;
+		toX = x + dir[i*2][0];
+		toY = y + dir[i*2][1];
+		rest[i] = consider_resistance ? n - Stage::getResistance(toX, toY) : n - 1;
 
-		if(Stage::canMove(x + dir[i*2][0], y + dir[i*2][1]) && rest[i] >= 0){
-			Stage::setBrightPoint(x + dir[i*2][0], y + dir[i*2][1], color_move);
-			range(x + dir[i*2][0], y + dir[i*2][1], rest[i], consider_resistance);
+		if(Stage::canMove(toX, toY) && rest[i] >= 0){
+			Stage::setBrightPoint(toX, toY, color_move);
+			//敵をすり抜けないようにする
+			if(Stage::getObjectAt(toX, toY)) continue;
+			range(toX, toY, rest[i], consider_resistance);
 		}
 	}
 }
