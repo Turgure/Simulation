@@ -23,7 +23,6 @@ void BattleScene::initialize(){
 
 void BattleScene::update(){
 	stage.update();
-	cursor.update();
 
 	for(auto& player : players){
 		player.update();
@@ -68,6 +67,7 @@ void BattleScene::update(){
 			if(!player.isMyTurn()) continue;
 			act_only_one = true;
 
+			cursor.update();
 			player.action();
 			player.attack(enemies);
 			if(Keyboard::get(KEY_INPUT_9) == 1){
