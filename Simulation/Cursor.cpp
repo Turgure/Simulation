@@ -31,8 +31,8 @@ void Cursor::update(){
 
 void Cursor::draw(){
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-	DrawBox(mypos.getXByPx(), mypos.getYByPx(),
-		mypos.getXByPx() + chipsize, mypos.getYByPx() + chipsize, image, true);
+	DrawBox(Stage::getLeftupPositionX() + mypos.getX()*chipsize, Stage::getLeftupPositionY() + mypos.getY()*chipsize,
+		Stage::getLeftupPositionX() + mypos.getX()*chipsize + chipsize, Stage::getLeftupPositionY() + mypos.getY()*chipsize + chipsize, image, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 

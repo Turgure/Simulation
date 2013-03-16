@@ -81,21 +81,17 @@ void Stage::initMap(){
 }
 
 void Stage::update(){
-	if(Cursor::pos().getXByPx() < chipsize*3){
+	if(Cursor::pos().getX()*chipsize + getLeftupPositionX() < chipsize*3){
 		leftup_positionX += chipsize + 5;
-		Cursor::pos().setXByPx(chipsize*3);
 	}
-	if(Cursor::pos().getYByPx() < chipsize*3){
+	if(Cursor::pos().getY()*chipsize + getLeftupPositionY() < chipsize*3){
 		leftup_positionY += chipsize + 5;
-		Cursor::pos().setYByPx(chipsize*3);
 	}
-	if(Cursor::pos().getXByPx() > DEFAULT_SCREEN_SIZE_X - chipsize*3){
+	if(Cursor::pos().getX()*chipsize + getLeftupPositionX() > DEFAULT_SCREEN_SIZE_X - chipsize*3){
 		leftup_positionX -= chipsize - 5;
-		Cursor::pos().setXByPx((DEFAULT_SCREEN_SIZE_X-leftup_positionX)/chipsize - 3);
 	}
-	if(Cursor::pos().getYByPx() > DEFAULT_SCREEN_SIZE_Y - chipsize*3){
+	if(Cursor::pos().getY()*chipsize + getLeftupPositionY() > DEFAULT_SCREEN_SIZE_Y - chipsize*3){
 		leftup_positionY -= chipsize - 5;
-		Cursor::pos().setYByPx((DEFAULT_SCREEN_SIZE_Y-leftup_positionY)/chipsize - 3);
 	}
 }
 

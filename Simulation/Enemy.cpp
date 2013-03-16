@@ -33,7 +33,7 @@ void Enemy::update(){
 void Enemy::draw(){
 	Event::DrawGraphOnMap(mypos.getX(), mypos.getY(), image);
 	//show id on object
-	DrawFormatString(mypos.getXByPx(), mypos.getYByPx(), GetColor(255,255,255), "%d", id);
+	DrawFormatString(Stage::getLeftupPositionX() + mypos.getX()*chipsize, Stage::getLeftupPositionY() + mypos.getY()*chipsize, GetColor(255,255,255), "%d", id);
 
 	if(mypos.targetted(Cursor::pos().getX(), Cursor::pos().getY())){
 		showStatus(200, 0);
