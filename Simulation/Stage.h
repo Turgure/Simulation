@@ -28,7 +28,8 @@ public:
 	static int getResistance(int x, int y);
 
 	static int getWidth(){ return width; }
-	static int getHeight(){ return height; }
+	static int getDepth(){ return depth; }
+	static int getHeight(int x, int y){ return mapchip[y][x].height; }
 	static int getLeftupPositionX(){ return leftup_positionX; }
 	static int getLeftupPositionY(){ return leftup_positionY; }
 
@@ -36,12 +37,12 @@ private:
 	int current_map;
 
 	static int width;
-	static int height;
+	static int depth;
 	static int leftup_positionX;
 	static int leftup_positionY;
 
-	struct MapchipStatus{
-		MapchipStatus(int id){ this-> id = id; }
+	struct MapchipDefinition{
+		MapchipDefinition(int id){ this-> id = id; }
 		int id;
 		int mapchip_color;
 		int resistance;
@@ -51,6 +52,7 @@ private:
 		Mapchip():mypos(0,0){};
 		Position mypos;
 		int id;
+		int height;
 		int mapchip_color;
 		int resistance;
 		int bright_color;
@@ -58,7 +60,7 @@ private:
 		BaseObject* object;
 	};
 
-	vector<MapchipStatus> mapchipStatus;
+	vector<MapchipDefinition> mapchipDefinition;
 	static Mapchip mapchip[100][100];	//予め100x100のメモリを確保
 	
 public:

@@ -26,7 +26,7 @@ void Cursor::update(){
 	if(mypos.getXByMap() < 0) mypos.setXByMap(0);
 	if(mypos.getYByMap() < 0) mypos.setYByMap(0);
 	if(mypos.getXByMap() > Stage::getWidth()-1) mypos.setXByMap(Stage::getWidth()-1);
-	if(mypos.getYByMap() > Stage::getHeight()-1) mypos.setYByMap(Stage::getHeight()-1);
+	if(mypos.getYByMap() > Stage::getDepth()-1) mypos.setYByMap(Stage::getDepth()-1);
 }
 
 void Cursor::draw(){

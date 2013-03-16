@@ -103,5 +103,5 @@ void Event::rowFourTo(int x, int y, int color, int n){
 }
 
 void Event::rowFour(int x, int y, int color){
-	rowFourTo(x, y, color, Stage::getWidth() >= Stage::getHeight() ? Stage::getWidth() : Stage::getHeight());
+	rowFourTo(x, y, color, Stage::getWidth() >= Stage::getDepth() ? Stage::getWidth() : Stage::getDepth());
 }
