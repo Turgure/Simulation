@@ -49,8 +49,6 @@ private:
 	};
 
 	struct Mapchip{
-		Mapchip():mypos(0,0){};
-		Position mypos;
 		int id;
 		int height;
 		int mapchip_color;
@@ -62,7 +60,4 @@ private:
 
 	vector<MapchipDefinition> mapchipDefinition;
 	static Mapchip mapchip[100][100];	//予め100x100のメモリを確保
-	
-public:
-	static Position pos(int x, int y){ return mapchip[x][y].mypos; }
 };

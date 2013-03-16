@@ -40,7 +40,7 @@ void BattleScene::update(){
 			//check
 			if(player.isMyTurn()){
 				has_come_turn = true;
-				cursor.set(player.pos().getXByMap(), player.pos().getYByMap());
+				cursor.set(player.pos().getX(), player.pos().getY());
 				break;
 			}
 		}
@@ -54,7 +54,7 @@ void BattleScene::update(){
 			//check
 			if(enemy.isMyTurn()){
 				has_come_turn = true;
-				cursor.set(enemy.pos().getXByMap(), enemy.pos().getYByMap());
+				cursor.set(enemy.pos().getX(), enemy.pos().getY());
 				break;
 			}
 		}

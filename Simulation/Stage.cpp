@@ -52,21 +52,20 @@ void Stage::initMap(){
 	vector<vector<string>> mapid;
 	FileStream::load("data/stage/stage2/map.csv", mapid);
 
+
+	auto& header = mapid[0];
+	width = stoi(header[0]);
+	depth = stoi(header[1]);
 	//idの読み込み
-	for(unsigned int h = 0; h < mapid.size(); ++h){
+
+	for(unsigned int h = 1; h < mapid.size(); ++h){
 		for(unsigned int w = 0; w < mapid[h].size(); ++w){
-			if(h == 0){
-				width = stoi(mapid[h][0]);
-				depth = stoi(mapid[h][1]);
-				break;
-			}
 			mapchip[h-1][w].id = stoi(mapid[h][w]);
 		}
 	}
 
 	for(int h = 0; h < depth; h++){
 		for(int w = 0; w < width; w++){
-			mapchip[h][w].mypos.setByMap(w, h);
 			mapchip[h][w].is_brighting = false;
 			mapchip[h][w].object = nullptr;
 
@@ -82,21 +81,21 @@ void Stage::initMap(){
 }
 
 void Stage::update(){
-	if(Cursor::pos().getXByPx() < mapsize*3){
-		leftup_positionX += mapsize + 5;
-		Cursor::pos().setXByPx(mapsize*3);
+	if(Cursor::pos().getXByPx() < chipsize*3){
+		leftup_positionX += chipsize + 5;
+		Cursor::pos().setXByPx(chipsize*3);
 	}
-	if(Cursor::pos().getYByPx() < mapsize*3){
-		leftup_positionY += mapsize + 5;
-		Cursor::pos().setYByPx(mapsize*3);
+	if(Cursor::pos().getYByPx() < chipsize*3){
+		leftup_positionY += chipsize + 5;
+		Cursor::pos().setYByPx(chipsize*3);
 	}
-	if(Cursor::pos().getXByPx() > DEFAULT_SCREEN_SIZE_X - mapsize*3){
-		leftup_positionX -= mapsize - 5;
-		Cursor::pos().setXByPx((DEFAULT_SCREEN_SIZE_X-leftup_positionX)/mapsize - 3);
+	if(Cursor::pos().getXByPx() > DEFAULT_SCREEN_SIZE_X - chipsize*3){
+		leftup_positionX -= chipsize - 5;
+		Cursor::pos().setXByPx((DEFAULT_SCREEN_SIZE_X-leftup_positionX)/chipsize - 3);
 	}
-	if(Cursor::pos().getYByPx() > DEFAULT_SCREEN_SIZE_Y - mapsize*3){
-		leftup_positionY -= mapsize - 5;
-		Cursor::pos().setYByPx((DEFAULT_SCREEN_SIZE_Y-leftup_positionY)/mapsize - 3);
+	if(Cursor::pos().getYByPx() > DEFAULT_SCREEN_SIZE_Y - chipsize*3){
+		leftup_positionY -= chipsize - 5;
+		Cursor::pos().setYByPx((DEFAULT_SCREEN_SIZE_Y-leftup_positionY)/chipsize - 3);
 	}
 }
 
@@ -108,8 +107,8 @@ void Stage::draw(){
 void Stage::drawMap(){
 	for(int h = 0; h < depth; h++){
 		for(int w = 0; w < width; w++){
-			DrawBox(mapchip[h][w].mypos.getXByPx(), mapchip[h][w].mypos.getYByPx(),
-				mapchip[h][w].mypos.getXByPx() + mapsize, mapchip[h][w].mypos.getYByPx() + mapsize, mapchip[h][w].mapchip_color, false);
+			DrawBox(getLeftupPositionX() + w*chipsize, getLeftupPositionY() + h*chipsize,
+				getLeftupPositionX() + w*chipsize + chipsize, getLeftupPositionY() + h*chipsize + chipsize, mapchip[h][w].mapchip_color, false);
 		}
 	}
 }
@@ -119,8 +118,8 @@ void Stage::drawBrightPoints(){
 		for(int w = 0; w < width; w++){
 			if(mapchip[h][w].is_brighting){
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 192);
-				DrawBox(mapchip[h][w].mypos.getXByPx(), mapchip[h][w].mypos.getYByPx(),
-					mapchip[h][w].mypos.getXByPx() + mapsize, mapchip[h][w].mypos.getYByPx() + mapsize, mapchip[h][w].bright_color, true);
+				DrawBox(getLeftupPositionX() + w*chipsize, getLeftupPositionY() + h*chipsize,
+					getLeftupPositionX() + w*chipsize + chipsize, getLeftupPositionY() + h*chipsize + chipsize, mapchip[h][w].bright_color, true);
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
 		}

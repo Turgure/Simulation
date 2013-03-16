@@ -18,9 +18,9 @@ int Event::color_attack = GetColor(255,102,255);
 int Event::color_support = GetColor(102,255,102);
 
 void Event::DrawGraphOnMap(int x, int y, int image){
-	//DrawGraph(leftupPositionX + x*mapsize, leftupPositionY + y*mapsize, image, true);
-	DrawBox(Stage::getLeftupPositionX() + x*mapsize +5, Stage::getLeftupPositionY() + y*mapsize +5,
-		Stage::getLeftupPositionX() + (x+1)*mapsize -5, Stage::getLeftupPositionY() + (y+1)*mapsize -5, image, true);
+	//DrawGraph(leftupPositionX + x*chipsize, leftupPositionY + y*chipsize, image, true);
+	DrawBox(Stage::getLeftupPositionX() + x*chipsize +5, Stage::getLeftupPositionY() + y*chipsize +5,
+		Stage::getLeftupPositionX() + (x+1)*chipsize -5, Stage::getLeftupPositionY() + (y+1)*chipsize -5, image, true);
 }
 
 void Event::range(int x, int y, int n, bool consider_resistance){
