@@ -3,10 +3,6 @@
 #include "GV.h"
 #include "Stage.h"
 
-Position::Position(int x, int y){
-	this->x = x, this->y = y;
-}
-
 void Position::setX(int toX){ x = toX; }
 void Position::setY(int toY){ y = toY; }
 int Position::getX() const { return x; }
